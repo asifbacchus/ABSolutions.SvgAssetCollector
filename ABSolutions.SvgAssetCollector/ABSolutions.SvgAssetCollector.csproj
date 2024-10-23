@@ -1,9 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <Authors>Asif Bacchus</Authors>
+        <Company>A-B Solutions</Company>
+        <Copyright>Copyright (c) A-B Solutions 2024</Copyright>
+        <Description>Retrieve and parse a local (file system) or remote SVG file, parse the main node and add additional attributes as configured.</Description>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageIcon>NuGetIcon.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</RepositoryUrl>
+        <TargetFramework>net8.0</TargetFramework>
+        <Title>SVG Asset Collector</Title>
+        <Version>1.0.0</Version>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Include="LICENSE" Pack="true" PackagePath="\"/>
+        <None Include="NuGetIcon.png" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 
 </Project>
