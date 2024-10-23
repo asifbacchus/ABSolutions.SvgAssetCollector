@@ -25,4 +25,8 @@
         <None Include="NuGetIcon.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.10"/>
+    </ItemGroup>
+
 </Project>
