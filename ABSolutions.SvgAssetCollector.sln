@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABSolutions.SvgAssetCollect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABSolutions.SvgAssetCollector.BlazorComponent", "ABSolutions.SvgAssetCollector.BlazorComponent\ABSolutions.SvgAssetCollector.BlazorComponent.csproj", "{2DE701B0-9447-4A47-AEC9-BE11166A3708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABSolutions.SvgAssetCollector.Demo.Blazor", "ABSolutions.SvgAssetCollector.Demo.Blazor\ABSolutions.SvgAssetCollector.Demo.Blazor.csproj", "{6C9655A2-1D75-4CED-ADCC-B27E90EA4693}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{2DE701B0-9447-4A47-AEC9-BE11166A3708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DE701B0-9447-4A47-AEC9-BE11166A3708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DE701B0-9447-4A47-AEC9-BE11166A3708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C9655A2-1D75-4CED-ADCC-B27E90EA4693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C9655A2-1D75-4CED-ADCC-B27E90EA4693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C9655A2-1D75-4CED-ADCC-B27E90EA4693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C9655A2-1D75-4CED-ADCC-B27E90EA4693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
