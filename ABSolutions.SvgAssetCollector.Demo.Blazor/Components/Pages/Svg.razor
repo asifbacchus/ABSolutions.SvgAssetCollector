@@ -11,7 +11,7 @@
     </span>
     <span class="@(_isCancelled ? "svg-error" : "svg-red")">
         <SvgAssetCollector Filename="IAmRed.svg" AriaHidden="false" AriaLabel="This is red" Role="img"
-                           LogCorrelationValue="@_logCorrelationValue"/>
+                           LogCorrelationValue="@_logCorrelationValue" CancellationToken="CancellationToken"/>
     </span>
     <span class="svg-error">
         <p>The SVG requested below does NOT exist, so the default image is used.</p>
@@ -80,4 +80,3 @@
     }
 
 }
-
