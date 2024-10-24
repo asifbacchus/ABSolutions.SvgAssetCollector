@@ -30,4 +30,36 @@ public struct SvgResult()
         IsSuccess = true;
         Markup = new MarkupString(svgData);
     }
+
+    /// <summary>
+    ///     Create an SvgResult object with a success flag and SVG data as MarkupString.
+    /// </summary>
+    /// <param name="svgData">SVG markup data.</param>
+    public SvgResult(MarkupString svgData) : this()
+    {
+        IsSuccess = true;
+        Markup = svgData;
+    }
+
+    /// <summary>
+    ///     Create an SvgResult object with a success/failure flag and optional SVG data as MarkupString.
+    /// </summary>
+    /// <param name="isSuccess">Whether the SVG retrieval process was successful.</param>
+    /// <param name="svgData">SVG markup data. If omitted or null, the default SVG will be used.</param>
+    public SvgResult(bool isSuccess, string? svgData = null) : this()
+    {
+        IsSuccess = isSuccess;
+        Markup = new MarkupString(svgData ?? DefaultSvg);
+    }
+
+    /// <summary>
+    ///     Create an SvgResult object with a success/failure flag and optional SVG data as MarkupString.
+    /// </summary>
+    /// <param name="isSuccess">Whether the SVG retrieval process was successful.</param>
+    /// <param name="svgData">SVG markup data. If omitted or null, the default SVG will be used.</param>
+    public SvgResult(bool isSuccess, MarkupString? svgData = null) : this()
+    {
+        IsSuccess = isSuccess;
+        Markup = svgData ?? new MarkupString(DefaultSvg);
+    }
 }
