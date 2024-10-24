@@ -81,7 +81,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     }
 
     public async Task<SvgResult> GetSvgAssetAsync(string? filename,
-        List<KeyValuePair<string, string>>? attributes = null,
+        Dictionary<string, string>? attributes = null,
         bool? useCache = null, bool? noExpiry = null,
         string loggingCorrelationValue = "", CancellationToken cancellationToken = default)
     {
@@ -391,13 +391,13 @@ public class SvgAssetCollector : ISvgAssetCollector
     ///     Add attributes to an XML node based on a list of key-value pairs.
     /// </summary>
     /// <param name="svgNode">XML representation of SVG to which attributes should be added.</param>
-    /// <param name="attributes">Key-Value pairs from which to derive attributes.</param>
+    /// <param name="attributes">Dictionary from which to derive attributes.</param>
     /// <param name="filename">
     ///     Name of the file being processed. If null or omitted, the default value is used. Default: "default SVG".
     /// </param>
     /// <param name="loggingCorrelationValue">Value to use for logging correlation. Default: empty string.</param>
     /// <returns>XmlNode containing the modified SVG.</returns>
-    private XmlNode AddXmlAttributes(XmlNode svgNode, List<KeyValuePair<string, string>>? attributes,
+    private XmlNode AddXmlAttributes(XmlNode svgNode, Dictionary<string, string>? attributes,
         string? filename = "<default SVG>", string loggingCorrelationValue = "")
     {
         var logContexts = new Dictionary<string, object>
