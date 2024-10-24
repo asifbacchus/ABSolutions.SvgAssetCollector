@@ -1,0 +1,51 @@
+@using ABSolutions.SvgAssetCollector.Models
+@using ABSolutions.SvgAssetCollector.Services
+@_svgResult.Markup
+
+@code
+{
+    private readonly Dictionary<string, string> _svgAttributes = [];
+    private SvgResult _svgResult;
+
+    [Inject] private ISvgAssetCollector Svg { get; set; } = default!;
+    [Parameter] public string? Filename { get; set; }
+
+    [Parameter] public bool AriaHidden { get; set; } = true;
+    [Parameter] public string AriaLabel { get; set; } = string.Empty;
+    [Parameter] public string AriaDescription { get; set; } = string.Empty;
+    [Parameter] public string Class { get; set; } = string.Empty;
+    [Parameter] public string Height { get; set; } = string.Empty;
+    [Parameter] public string Role { get; set; } = "graphics-symbol";
+    [Parameter] public string Width { get; set; } = string.Empty;
+    [Parameter] public Dictionary<string, string> Attributes { get; set; } = [];
+
+    [Parameter] public bool? UseCache { get; set; }
+    [Parameter] public bool? NoExpiry { get; set; }
+
+    [Parameter] public EventCallback<MarkupString> SvgContentsChanged { get; set; }
+    [Parameter] public string LogCorrelationValue { get; set; } = string.Empty;
+    [Parameter] public CancellationToken CancellationToken { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _svgAttributes.Add("aria-hidden", AriaHidden.ToString().ToLowerInvariant());
+        if (!string.IsNullOrWhiteSpace(AriaLabel))
+            _svgAttributes.Add("aria-label", AriaLabel);
+        if (!string.IsNullOrWhiteSpace(AriaDescription))
+            _svgAttributes.Add("aria-description", AriaDescription);
+        if (!string.IsNullOrWhiteSpace(Class))
+            _svgAttributes.Add("class", Class);
+        if (!string.IsNullOrWhiteSpace(Height))
+            _svgAttributes.Add("height", Height);
+        _svgAttributes.Add("role", Role.ToLowerInvariant());
+        if (!string.IsNullOrWhiteSpace(Width))
+            _svgAttributes.Add("width", Width);
+
+        // add user-supplied attributes iff they do not already exist
+        foreach (var (key, value) in Attributes)
+            _svgAttributes.TryAdd(key, value);
+
+        _svgResult = await Svg.GetSvgAssetAsync(Filename, _svgAttributes, UseCache, NoExpiry, LogCorrelationValue, CancellationToken);
+        await SvgContentsChanged.InvokeAsync(_svgResult.Markup);
+    }
+}
