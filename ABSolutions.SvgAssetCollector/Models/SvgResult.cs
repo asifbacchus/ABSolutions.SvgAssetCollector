@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 namespace ABSolutions.SvgAssetCollector.Models;
 
 /// <summary>
-///     SVG Asset Collector result object with a success flag and SVG data as MarkupString.
+///     SVG Asset Collector result object with a boolean success flag and SVG data as MarkupString.
 ///     Default values are set to false and a currentColor exclamation mark surrounded by a circle.
 /// </summary>
 public struct SvgResult()
