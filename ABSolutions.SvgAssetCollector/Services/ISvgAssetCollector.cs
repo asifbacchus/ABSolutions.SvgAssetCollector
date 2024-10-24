@@ -26,7 +26,7 @@ public interface ISvgAssetCollector
     ///     SvgResult object containing a success flag and a markup string representing the retrieved SVG. The markup
     ///     string will always be populated regardless of success condition (i.e. never null).
     /// </returns>
-    Task<SvgResult> GetSvgAssetAsync(string? filename, List<KeyValuePair<string, string>>? attributes,
+    Task<SvgResult> GetSvgAssetAsync(string? filename, List<KeyValuePair<string, string>>? attributes = null,
         bool? useCache = null, bool? noExpiry = null, string loggingCorrelationValue = "",
         CancellationToken cancellationToken = default);
 }

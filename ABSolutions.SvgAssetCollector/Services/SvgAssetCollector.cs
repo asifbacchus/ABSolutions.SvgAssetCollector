@@ -80,7 +80,8 @@ public class SvgAssetCollector : ISvgAssetCollector
         }
     }
 
-    public async Task<SvgResult> GetSvgAssetAsync(string? filename, List<KeyValuePair<string, string>>? attributes,
+    public async Task<SvgResult> GetSvgAssetAsync(string? filename,
+        List<KeyValuePair<string, string>>? attributes = null,
         bool? useCache = null, bool? noExpiry = null,
         string loggingCorrelationValue = "", CancellationToken cancellationToken = default)
     {
