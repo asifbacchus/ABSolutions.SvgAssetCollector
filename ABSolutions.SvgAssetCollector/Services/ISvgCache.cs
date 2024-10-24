@@ -1,5 +1,4 @@
 using ABSolutions.SvgAssetCollector.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace ABSolutions.SvgAssetCollector.Services;
 
@@ -15,7 +14,7 @@ public interface ISvgCache
     /// <param name="svg">SVG markup string.</param>
     /// <param name="expiryMinutes">Number of minutes until cached object expires. Set to 0 if object should NEVER expire.</param>
     /// <returns>Boolean result of registering a new cached object.</returns>
-    public ValueTask<(bool result, Exception? exception)> RegisterAsync(string filename, MarkupString svg,
+    public ValueTask<(bool result, Exception? exception)> RegisterAsync(string filename, string svg,
         int expiryMinutes);
 
     /// <summary>
