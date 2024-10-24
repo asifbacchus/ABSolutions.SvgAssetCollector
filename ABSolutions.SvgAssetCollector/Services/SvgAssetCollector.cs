@@ -150,8 +150,8 @@ public class SvgAssetCollector : ISvgAssetCollector
                     await UpdateCachedSvgAssetAsync(filename!, svgNode.OuterXml, expiry);
 
                 // add attributes to SVG node and return result object
-                var svgNodeWithAttributes = AddXmlAttributes(svgNode, attributes, useDefaultSvg ? null : filename,
-                    loggingCorrelationValue);
+                var svgNodeWithAttributes = AddXmlAttributes(svgXml, svgNode, attributes,
+                    useDefaultSvg ? null : filename, loggingCorrelationValue);
                 _logger?.LogDebug("Returning extracted SVG node from {Filename} with updated attributes",
                     useDefaultSvg ? "<default SVG>" : filename ?? "<default SVG>");
                 return new SvgResult(!useDefaultSvg, svgNodeWithAttributes.OuterXml);
@@ -390,6 +390,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     /// <summary>
     ///     Add attributes to an XML node based on a list of key-value pairs.
     /// </summary>
+    /// <param name="xmlDoc">XML document in which the XML node is contained.</param>
     /// <param name="svgNode">XML representation of SVG to which attributes should be added.</param>
     /// <param name="attributes">Dictionary from which to derive attributes.</param>
     /// <param name="filename">
@@ -397,7 +398,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     /// </param>
     /// <param name="loggingCorrelationValue">Value to use for logging correlation. Default: empty string.</param>
     /// <returns>XmlNode containing the modified SVG.</returns>
-    private XmlNode AddXmlAttributes(XmlNode svgNode, Dictionary<string, string>? attributes,
+    private XmlNode AddXmlAttributes(XmlDocument xmlDoc, XmlNode svgNode, Dictionary<string, string>? attributes,
         string? filename = "<default SVG>", string loggingCorrelationValue = "")
     {
         var logContexts = new Dictionary<string, object>
@@ -411,8 +412,6 @@ public class SvgAssetCollector : ISvgAssetCollector
         {
             if (attributes is null || attributes.Count == 0) return svgNode;
 
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(svgNode.OuterXml);
             var existingAttributes = svgNode.Attributes?.Cast<XmlAttribute>() ?? [];
             foreach (var attribute in existingAttributes)
                 _logger?.LogDebug("Found existing XML attribute in {Filename}: {AttributeName} = {AttributeValue}",
