@@ -1,6 +1,8 @@
 using System.Text.Json;
 using ABSolutions.SvgAssetCollector.DependencyInjection;
 using ABSolutions.SvgAssetCollector.Models;
+using ABSolutions.SvgAssetCollector.Services;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,5 +30,18 @@ builder.Services.AddSvgAssetCollector(builder.Configuration);
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
+
+app.MapGet("/svg/{filename}",
+    async (string filename, [FromServices] ISvgAssetCollector svgAssetCollector) =>
+    {
+        var requestFilename = filename switch
+        {
+            "blue" => "IAmBlue.svg",
+            "red" => "IAmRed.svg",
+            _ => "noExist.svg"
+        };
+        var svg = await svgAssetCollector.GetSvgAssetAsync(requestFilename);
+        return svg.IsSuccess ? Results.Ok(svg.Markup.Value) : Results.NotFound(svg.Markup.Value);
+    });
 
 app.Run();
