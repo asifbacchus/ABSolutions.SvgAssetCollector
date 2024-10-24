@@ -1,4 +1,5 @@
 using ABSolutions.SvgAssetCollector.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace ABSolutions.SvgAssetCollector.Services;
 
@@ -6,7 +7,7 @@ public class SvgCacheInMemory : ISvgCache
 {
     private readonly List<SvgCachedObject> _svgCachedObjects = [];
 
-    public async ValueTask<(bool result, Exception? exception)> RegisterAsync(string filename, string svg,
+    public async ValueTask<(bool result, Exception? exception)> RegisterAsync(string filename, MarkupString svg,
         int expiryMinutes)
     {
         // delete existing object
