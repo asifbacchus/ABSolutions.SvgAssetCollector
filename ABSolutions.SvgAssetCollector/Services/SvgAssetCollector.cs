@@ -154,7 +154,7 @@ public class SvgAssetCollector : ISvgAssetCollector
                     loggingCorrelationValue);
                 _logger?.LogDebug("Returning extracted SVG node from {Filename} with updated attributes",
                     useDefaultSvg ? "<default SVG>" : filename ?? "<default SVG>");
-                return new SvgResult(svgNodeWithAttributes.OuterXml);
+                return new SvgResult(!useDefaultSvg, svgNodeWithAttributes.OuterXml);
             }
             catch (Exception exception)
             {
