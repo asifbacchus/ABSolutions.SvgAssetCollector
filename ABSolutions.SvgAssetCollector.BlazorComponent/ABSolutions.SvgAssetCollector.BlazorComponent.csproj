@@ -1,9 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <Authors>Asif Bacchus</Authors>
+        <Company>A-B Solutions</Company>
+        <Copyright>Copyright (c) A-B Solutions 2024</Copyright>
+        <Description>Blazor component to render an SVG retrieved by the ABSolutions.SvgAssetCollector library as inline markup for easy CSS styling.</Description>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageIcon>NuGetIcon.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</RepositoryUrl>
+        <TargetFramework>net8.0</TargetFramework>
+        <Title>SvgAssetCollector Blazor Component</Title>
+        <Version>1.0.0-Beta1</Version>
     </PropertyGroup>
 
 
@@ -13,11 +26,13 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.10"/>
+        <PackageReference Include="ABSolutions.SvgAssetCollector" Version="1.0.0-beta3"/>
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\background.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\exampleJsInterop.js" />
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Include="LICENSE" Pack="true" PackagePath="\"/>
+        <None Include="NuGetIcon.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
