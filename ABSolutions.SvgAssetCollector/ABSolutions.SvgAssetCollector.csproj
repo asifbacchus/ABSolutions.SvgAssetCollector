@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</RepositoryUrl>
         <TargetFramework>net8.0</TargetFramework>
         <Title>SVG Asset Collector</Title>
-        <Version>1.0.0-beta2</Version>
+        <Version>1.0.0-beta3</Version>
     </PropertyGroup>
 
     <ItemGroup>
