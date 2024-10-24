@@ -156,10 +156,25 @@ public class SvgAssetCollector : ISvgAssetCollector
                     useDefaultSvg ? "<default SVG>" : filename ?? "<default SVG>");
                 return new SvgResult(!useDefaultSvg, svgNodeWithAttributes.OuterXml);
             }
+            catch (OperationCanceledException exception) when (cancellationToken.IsCancellationRequested)
+            {
+                _logger?.LogWarning(exception, "Request for asset {Filename} was cancelled, sending default image",
+                    filename ?? "<filename not specified>");
+                return new SvgResult();
+            }
+            catch (OperationCanceledException exception) when
+                (exception.InnerException is TimeoutException timeoutException)
+            {
+                _logger?.LogWarning(timeoutException,
+                    "Upstream asset {Filename} request timed out, sending default image",
+                    filename ?? "<filename not specified>");
+                return new SvgResult();
+            }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
-                throw;
+                _logger?.LogError(exception, "Error retrieving upstream asset {Filename}, sending default image",
+                    filename ?? "<filename not specified>");
+                return new SvgResult();
             }
         }
     }
