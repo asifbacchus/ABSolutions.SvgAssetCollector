@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components;
-
 namespace ABSolutions.SvgAssetCollector.Models;
 
 /// <summary>
@@ -8,7 +6,7 @@ namespace ABSolutions.SvgAssetCollector.Models;
 public record SvgCachedObject
 {
     public required string Filename { get; init; }
-    public required MarkupString Svg { get; init; }
+    public required string Svg { get; init; }
     public DateTime? Expiry { get; init; }
 
     /// <summary>
@@ -30,7 +28,7 @@ public record SvgCachedObject
     public override string ToString()
     {
         return
-            $"Filename: {Filename} | SVG: {(string.IsNullOrWhiteSpace(Svg.Value) ? "<null>" : "<has value>")} | Expiry: {(Expiry.HasValue ? Expiry.Value.ToString("O") : "infinite")}";
+            $"Filename: {Filename} | SVG: {(string.IsNullOrWhiteSpace(Svg) ? "<null>" : "<has value>")} | Expiry: {(Expiry.HasValue ? Expiry.Value.ToString("O") : "infinite")}";
     }
 
     /// <summary>
