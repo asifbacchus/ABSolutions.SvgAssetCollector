@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</RepositoryUrl>
         <TargetFramework>net8.0</TargetFramework>
         <Title>SVG Asset Collector</Title>
-        <Version>1.0.0</Version>
+        <Version>1.0.0-beta1</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,9 +27,9 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.10"/>
-        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0"/>
     </ItemGroup>
 
 </Project>
