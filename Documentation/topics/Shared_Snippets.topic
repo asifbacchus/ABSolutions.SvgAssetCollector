@@ -165,8 +165,10 @@
     </snippet>
 
     <snippet id="returnResultStruct">
-        <p>The <code>GetSvgAssetAsync</code> method returns a <code>Task&lt;SvgResult&gt;</code> object. The <code>SvgResult</code>
-            is a <code>struct</code> with two properties:</p>
+        <p>
+            The <code>GetSvgAssetAsync</code> method returns a <code>Task&lt;SvgResult&gt;</code> object. The <code>SvgResult</code>
+            is a <code>struct</code> with two properties:
+        </p>
         <list>
             <li>
                 <code>IsSuccess</code>:
