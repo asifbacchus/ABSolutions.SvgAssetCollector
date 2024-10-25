@@ -59,7 +59,7 @@ public class MyClass
 }
 ```
 
-## Return result
+### Return result
 
 <include from="Shared_Snippets.topic" element-id="returnResultStruct"/>
 
