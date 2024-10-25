@@ -20,7 +20,7 @@
         </variables>
         <footer>
             <copyright>A-B Solutions/Asif Bacchus 2024</copyright>
-            <link href="https://a-b.solutions/documentation/nuget/ABSolutions.SvgAssetCollector">Project repository
+            <link href="https://github.com/asifbacchus/ABSolutions.SvgAssetCollector">Project repository
             </link>
             <link href="https://www.nuget.org/packages/ABSolutions.SvgAssetCollector">Product NuGet page</link>
         </footer>
@@ -36,7 +36,7 @@
         </variables>
         <footer>
             <copyright>A-B Solutions/Asif Bacchus 2024</copyright>
-            <link href="https://a-b.solutions/documentation/nuget/ABSolutions.SvgAssetCollector">Project repository
+            <link href="https://github.com/asifbacchus/ABSolutions.SvgAssetCollector">Project repository
             </link>
             <link href="https://www.nuget.org/packages/ABSolutions.SvgAssetCollector.BlazorComponent">Product NuGet
                 page
