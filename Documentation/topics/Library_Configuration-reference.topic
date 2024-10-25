@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic id="Library_Configuration-reference"
+       title="Configuration reference"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <link-summary>
+        Explanation of configuration options for this library and their default settings.
+    </link-summary>
+    <card-summary>
+        Detailed explanation of all configuration options for this library along with default settings.
+    </card-summary>
+    <web-summary>
+        Configuration options for ABSolutions.SvgAssetCollector .NET library.
+    </web-summary>
+
+    <chapter id="configuration-options" title="Configuration options">
+        <p>
+            All library configuration options are defined in <code>appsettings.json</code>. The following is a detailed
+            explanation of each configuration option.
+        </p>
+        <warning>
+            Configuration options
+            <format style="bold">MUST</format>
+            be in a key called <code>SvgAssetCollector</code> or the library will not find your settings!
+        </warning>
+        <deflist collapsible="true">
+            <def id="library-config-httpClientName" title="string:HttpClientName">
+                <p>
+                    Named HTTP client to use/create to retrieve upstream remote SVG assets.
+                    <a href="Library_HTTP-client.md">[more info]</a>
+                </p>
+                <p>
+                    <format style="bold">Default:</format>
+                    SvgAssetCollectorClient
+                </p>
+            </def>
+            <def id="library-config-upstreamSvgAssetBaseUri" title="string:UpstreamSvgAssetBaseUri">
+                <p>
+                    Upstream base URI from which to retrieve SVG assets.
+                </p>
+                <p>
+                    If a file path is provided, SVG assets will be retrieved relative to this path. If a URL is
+                    provided, SVG assets will be retrieved relative to this URL. If specifying a URL, it MUST be an
+                    absolute URL. A trailing slash will added to this value if not present.
+                </p>
+                <warning>
+                    <p>
+                        You MUST specify a protocol for this URI: <code>http://</code>, <code>https://</code> or <code>file://</code>.
+                    </p>
+                    <p>
+                        If using <code>http</code> or <code>https</code>,
+                        invalid URLs will throw a <code>UriFormatException</code>. If using <code>file</code>, a missing
+                        or
+                        invalid path will throw a <code>DirectoryNotFoundException</code>.
+                    </p>
+                </warning>
+                <p>
+                    <format style="bold">Default:</format>
+                    http://localhost
+                </p>
+            </def>
+            <def id="library-config-upstreamRetrievalTimeoutSeconds"
+                 title="int:UpstreamRetrievalTimeoutSeconds">
+                <p>
+                    Timeout in seconds for upstream asset retrieval. If this timeout is exceeded, an <code>OperationCancelledException</code>
+                    with a <code>TimeoutException</code> inner exception will be thrown.
+                </p>
+                <p>
+                    <format style="bold">Default:</format>
+                    5
+                </p>
+            </def>
+            <def id="library-config-enableSvgCache" title="bool:EnableSvgCache">
+                <p>
+                    Whether to enable the in-memory cache of SVG nodes. When enabled, the first SVG node for a given
+                    file name will be retrieved from the cache so long as it has not expired. If the cache is disabled,
+                    the upstream source will be queried for each request.
+                </p>
+                <p>
+                    <format style="bold">Default:</format>
+                    <code>true</code>
+                </p>
+            </def>
+            <def id="library-config-noExpiry" title="bool:NoExpiry">
+                <p>
+                    Whether to set cached entries to never expire. If this is enabled, SVG nodes will only be retrieved
+                    from the upstream source once and then served from the cache until your program is restarted.
+                </p>
+                <p>
+                    <format style="bold">Default:</format>
+                    <code>false</code>
+                </p>
+            </def>
+            <def id="library-config-SvgCacheExpiryMinutes" title="int:SvgCacheExpiryMinutes">
+                <p>
+                    Number of minutes before SVG node cache entries expire. SVG nodes in the cache will not be served
+                    from the cache once this time has elapsed. Please note that cached entries are "refreshed" each time
+                    they are accessed.
+                </p>
+                <p>
+                    <format style="bold">Default:</format>
+                    1440 (1 day)
+                </p>
+            </def>
+            <def id="library-config-loggingCorrelationIdentifier" title="string:LoggingCorrelationIdentifier">
+                <p>
+                    'Key' value to use in structured logging for correlation. The value will be added to the log context
+                    when the library is called. If this is not set, or is an empty string, no correlation identifier
+                    will be added to the log context.
+                </p>
+                <p>
+                    <format style="bold">Default:</format>
+                    empty string
+                </p>
+            </def>
+        </deflist>
+        <tip>
+            <code>EnableBase64Cache</code> and <code>NoExpiry</code> can be overriden on a per-call basis. Please see
+            <a href="Library_Calling-the-library.md"/> for more information.
+        </tip>
+    </chapter>
+
+    <chapter id="configuration-example" title="Configuration example">
+        <code-block lang="json" src="Library_appsettings.json"/>
+    </chapter>
+
+    <chapter id="configuration-bind-model" title="Configuration bind-model">
+        <p>In the event you need to read the configuration options, you can access them via dependency injection using
+            the
+            <emphasis>options
+                pattern
+            </emphasis>
+            . Inject <code>IOptions&lt;SvgAssetCollectorConfiguration&gt;</code> into your class, something like this:
+        </p>
+
+        <code-block lang="c#">
+            public class MyService
+            {
+            private readonly SvgAssetCollectorConfiguration _config;
+
+            public MyService(IOptions&lt;SvgAssetCollectorConfiguration&gt; config)
+            {
+            _config = config.Value;
+            }
+            }
+        </code-block>
+    </chapter>
+</topic>

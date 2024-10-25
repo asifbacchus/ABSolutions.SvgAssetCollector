@@ -8,4 +8,5 @@
 
     <toc-element topic="Library_Overview.topic"/>
     <toc-element topic="Library_Quickstart.md"/>
+    <toc-element topic="Library_Configuration-reference.topic"/>
 </instance-profile>
