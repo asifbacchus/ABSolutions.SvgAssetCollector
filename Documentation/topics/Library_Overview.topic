@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE topic
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
-<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       title="A-B Solutions: SvgAssetCollector - .NET Core Library" id="Library_Overview">
+<topic id="Library_Overview"
+       title="A-B Solutions: SvgAssetCollector - .NET Core Library"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
 
-    <p>Start typing here...</p>
+    <link-summary>
+        General overview and information about the ABSolutions.SvgAssetCollector library.
+    </link-summary>
+    <card-summary>
+        General overview and information about the ABSolutions.SvgAssetCollector library.
+    </card-summary>
+    <web-summary>
+        Information about ABSolutions.SvgAssetCollector .NET library and links to in-depth documentation.
+    </web-summary>
+
+    <chapter id="project-information" title="Project information">
+        <table style="none">
+            <tr>
+                <td>Author</td>
+                <td>%AuthorName%</td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td>%AuthorEmail%</td>
+            </tr>
+            <tr>
+                <td>Git repo</td>
+                <td>
+                    <a href="%GitRepo%"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Documentation</td>
+                <td>
+                    <a href="%DocUrl_Library%"/>
+                </td>
+            </tr>
+        </table>
+    </chapter>
+
+    <chapter id="description" title="Description">
+        <p>
+            <code>ABSolutions.SvgAssetCollector</code> is a .NET Core library that retrieves SVG file assets, extracts
+            the first <code>SVG node</code>, adds any configured attributes, and returns the modified node as a <code>MarkupString</code>.
+            Images can be located in the local file system or on a remote system accessible via HTTP(S). The library
+            uses a preconfigured or default <code>HttpClient</code> provided via <code>IHttpClientFactory</code>
+            injection, supports logging, and includes an in-memory caching system.
+        </p>
+    </chapter>
+
+    <chapter id="requirements-and-dependencies" title="Requirements and dependencies">
+        <p>This library is targeted for .NET Core 8 and has the following dependencies:</p>
+        <list>
+            <li><code>Microsoft.AspNetCore.Components</code> (&gt;= 8.0.10)</li>
+            <li><code>Microsoft.Extensions.Http</code> (&gt;= 8.0.1)</li>
+            <li><code>Microsoft.Extensions.Options</code> (&gt;= 8.0.2)</li>
+            <li><code>Microsoft.Extensions.Options.ConfigurationExtensions</code> (&gt;= 8.0.0)</li>
+        </list>
+    </chapter>
+
+    <chapter id="using-this-library" title="Using this library">
+        <p>Please refer to the following topics for more information about using this library:</p>
+        <list>
+            <li>
+                <a href="Library_Quickstart.md"/>
+            </li>
+            <li>
+                <a href="Library_Build-a-demo-api.md"/>
+            </li>
+        </list>
+        <p>
+            Alternatively, you can inspect the <code>%ProjectName%.Demo.API</code> project in the <a href="%GitRepo%">git
+            repo</a>.
+        </p>
+    </chapter>
+
+    <include element-id="TOU" from="Shared_Snippets.topic"/>
+    <include element-id="Contribution-Guidelines" from="Shared_Snippets.topic"/>
+    <include element-id="BugsAndHelp" from="Shared_Snippets.topic"/>
+
 </topic>
