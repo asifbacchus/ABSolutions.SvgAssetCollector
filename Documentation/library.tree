@@ -11,4 +11,5 @@
     <toc-element topic="Library_Configuration-reference.topic"/>
     <toc-element topic="Library_Dependency-injection.md"/>
     <toc-element topic="Library_HTTP-client.md"/>
+    <toc-element topic="Library_Calling-the-library.md"/>
 </instance-profile>
