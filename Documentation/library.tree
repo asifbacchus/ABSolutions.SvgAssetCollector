@@ -10,4 +10,5 @@
     <toc-element topic="Library_Quickstart.md"/>
     <toc-element topic="Library_Configuration-reference.topic"/>
     <toc-element topic="Library_Dependency-injection.md"/>
+    <toc-element topic="Library_HTTP-client.md"/>
 </instance-profile>
