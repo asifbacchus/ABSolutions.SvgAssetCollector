@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+
+<topic id="Shared_Snippets"
+       is-library="true"
+       title="Snippet Library"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <snippet id="TOU">
+        <chapter id="terms-of-use" title="Terms of use">
+            <p>
+                This project is licensed under the <a
+                    href="https://github.com/asifbacchus/ABSolutions.SvgAssetCollector/blob/main/LICENSE">MIT
+                license</a>.
+                Basically, you are free to use, modify, and distribute this project as you see fit. However, you
+                <format style="bold">must</format>
+                include the original license and copyright notice in any copy of the project or substantial portion of
+                the project. Also, understand that you are using this library at your own risk and the author does
+                <format style="bold">NOT</format>
+                accept liability for any damages or issues that may arise from your use of this library.
+            </p>
+        </chapter>
+    </snippet>
+
+    <snippet id="Contribution-Guidelines">
+        <chapter id="contribution-guidelines" title="Contribution guidelines">
+            <p>If you have suggestions for additional features or code improvements and would like to contribute to this
+                project, please let me know and/or submit a pull-request in the
+                <a href="%GitRepo%">git repo</a>.
+            </p>
+        </chapter>
+    </snippet>
+
+    <snippet id="BugsAndHelp">
+        <chapter id="bug-reports-and-help" title="Bug reports and help">
+            <p>If you discover a bug in this project or need assistance/clarification, please open an issue in the
+                <a href="%GitRepo%">git repo</a>
+                and I'll reply as soon as I can.
+            </p>
+        </chapter>
+    </snippet>
+
+</topic>
