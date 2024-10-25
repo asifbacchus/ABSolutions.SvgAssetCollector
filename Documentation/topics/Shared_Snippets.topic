@@ -164,4 +164,19 @@
         </list>
     </snippet>
 
+    <snippet id="returnResultStruct">
+        <p>The <code>GetSvgAssetAsync</code> method returns a <code>Task&lt;SvgResult&gt;</code> object. The <code>SvgResult</code>
+            is a <code>struct</code> with two properties:</p>
+        <list>
+            <li>
+                <code>IsSuccess</code>:
+                A <code>bool</code> value indicating whether the operation was successful.
+            </li>
+            <li>
+                <code>Markup</code>:
+                A <code>MarkupString</code> containing a markup-ready SVG node as retrieved from the source file.
+            </li>
+        </list>
+    </snippet>
+
 </topic>
