@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE buildprofiles SYSTEM "https://resources.jetbrains.com/writerside/1.0/build-profiles.dtd">
+<buildprofiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd">
+    <sitemap/>
+    <variables>
+        <custom-favicons>favicon.ico</custom-favicons>
+        <primary-color>#e19f29</primary-color>
+        <link-color>#e7b254</link-color>
+        <color-preset>contrast</color-preset>
+        <header-logo>logo.svg</header-logo>
+    </variables>
+    <build-profile instance="library">
+        <variables>
+            <product-web-url>https://a-b.solutions/documentation/nuget/SvgAssetCollector-Library</product-web-url>
+            <download-title>Project Repo</download-title>
+            <download-page>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</download-page>
+            <showDownloadButton>true</showDownloadButton>
+            <noindex-content>false</noindex-content>
+        </variables>
+        <footer>
+            <copyright>A-B Solutions/Asif Bacchus 2024</copyright>
+            <link href="https://a-b.solutions/documentation/nuget/ABSolutions.SvgAssetCollector">Project repository
+            </link>
+            <link href="https://www.nuget.org/packages/ABSolutions.SvgAssetCollector">Product NuGet page</link>
+        </footer>
+    </build-profile>
+    <build-profile instance="blazor">
+        <variables>
+            <product-web-url>https://a-b.solutions/documentation/nuget/SvgAssetCollector-BlazorComponent
+            </product-web-url>
+            <download-title>Project Repo</download-title>
+            <download-page>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</download-page>
+            <showDownloadButton>true</showDownloadButton>
+            <noindex-content>false</noindex-content>
+        </variables>
+        <footer>
+            <copyright>A-B Solutions/Asif Bacchus 2024</copyright>
+            <link href="https://a-b.solutions/documentation/nuget/ABSolutions.SvgAssetCollector">Project repository
+            </link>
+            <link href="https://www.nuget.org/packages/ABSolutions.SvgAssetCollector.BlazorComponent">Product NuGet
+                page
+            </link>
+        </footer>
+    </build-profile>
+
+</buildprofiles>
