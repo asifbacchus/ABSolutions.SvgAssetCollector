@@ -61,11 +61,7 @@ public class MyClass
 
 ## Return result
 
-The `GetSvgAssetAsync` method returns a `Task<SvgResult>` object. The `SvgResult` object has two properties:
-
-- `IsSuccess`: A `bool` that indicates whether the operation was successful.
-- `Markup`: A `MarkupString` that contains the SVG node of the asset in a format that can be rendered by a markup engine
-  such as a web browser or Blazor component.
+<include from="Shared_Snippets.topic" element-id="returnResultStruct"/>
 
 The `Markup` property will **never** be null. If the operation fails, the `Markup` property will contain
 a [default SVG](Library_Calling-the-library.md#default-return).
