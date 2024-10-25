@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/asifbacchus/ABSolutions.SvgAssetCollector</RepositoryUrl>
         <TargetFramework>net8.0</TargetFramework>
         <Title>SvgAssetCollector Blazor Component</Title>
-        <Version>1.0.0-Beta1.1</Version>
+        <Version>1.0.0</Version>
     </PropertyGroup>
 
 
