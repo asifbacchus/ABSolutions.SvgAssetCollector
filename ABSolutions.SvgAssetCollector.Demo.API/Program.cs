@@ -34,13 +34,14 @@ app.MapGet("/", () => "Hello World!");
 app.MapGet("/svg/{filename}",
     async (string filename, [FromServices] ISvgAssetCollector svgAssetCollector) =>
     {
+        var correlationValue = Guid.NewGuid().ToString();
         var requestFilename = filename switch
         {
             "blue" => "IAmBlue.svg",
             "red" => "IAmRed.svg",
             _ => "noExist.svg"
         };
-        var svg = await svgAssetCollector.GetSvgAssetAsync(requestFilename);
+        var svg = await svgAssetCollector.GetSvgAssetAsync(requestFilename, loggingCorrelationValue: correlationValue);
         return svg.IsSuccess ? Results.Ok(svg.Markup.Value) : Results.NotFound(svg.Markup.Value);
     });
 
