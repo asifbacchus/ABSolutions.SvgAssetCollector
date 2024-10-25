@@ -42,4 +42,126 @@
         </chapter>
     </snippet>
 
+    <snippet id="LibraryConfigTableWithNotes">
+        <p>
+            All configuration is handled via <code>appsettings.json</code> under the
+            <format style="bold">required</format>
+            key <code>SvgAssetCollector</code>. The following settings are available:
+        </p>
+        <table>
+            <tr>
+                <td>Property Name</td>
+                <td>Type</td>
+                <td>Description</td>
+                <td>Default</td>
+            </tr>
+            <tr>
+                <td><code>HttpClientName</code></td>
+                <td><code>string</code></td>
+                <td>The name of the externally configured HttpClient to use for all connections.</td>
+                <td><code>SvgAssetCollectorClient</code></td>
+            </tr>
+            <tr>
+                <td><code>UpstreamSvgAssetBaseUri</code></td>
+                <td><code>string</code></td>
+                <td>The full base-URL or base-directory for your upstream SVG assets.</td>
+                <td><code>http://localhost</code></td>
+            </tr>
+            <tr>
+                <td><code>UpstreamRetrievalTimeoutSeconds</code></td>
+                <td><code>int</code></td>
+                <td>Number of seconds to try retrieving the SVG file before cancelling the task.</td>
+                <td><code>5</code></td>
+            </tr>
+            <tr>
+                <td><code>EnableSvgCache</code></td>
+                <td><code>true</code></td>
+                <td>Whether to use the in-memory cache.</td>
+                <td><code>true</code></td>
+            </tr>
+            <tr>
+                <td><code>NoExpiry</code></td>
+                <td><code>false</code></td>
+                <td>If <code>true</code>, cached items will NEVER expire.</td>
+                <td><code>false</code></td>
+            </tr>
+            <tr>
+                <td><code>SvgCacheExpiryMinutes</code></td>
+                <td><code>int</code></td>
+                <td>Number of minutes to cache the SVG node in memory.</td>
+                <td><code>1440</code></td>
+            </tr>
+            <tr>
+                <td><code>LoggingCorrelationIdentifier</code></td>
+                <td><code>string</code></td>
+                <td>Structured logging 'key' name to correlate log entries</td>
+                <td><code>empty string</code></td>
+            </tr>
+        </table>
+        <note>
+            <code>EnableSvgCache</code> and <code>NoExpiry</code> can be overridden per-request.
+        </note>
+        <p>
+            <code>UpstreamSvgAssetBaseUri</code> can be a local directory or a remote URL.
+        </p>
+        <list>
+            <li>
+                A trailing slash (<code>/</code>) will be added to the base URI if it is missing.
+            </li>
+            <li>
+                Filenames are appended to this base URI when retrieving images.
+                <list>
+                    <li>
+                        The base URI should be a common parent directory if you are using local files.
+                    </li>
+                    <li>
+                        The base URI should be the base URL if you are using remote files.
+                    </li>
+                </list>
+            </li>
+            <li>
+                Filename are not restricted to only being a file name. You can use entire paths relative to the base
+                URI. If doing this, ensure that the path ends in the actual file to be retrieved.
+            </li>
+        </list>
+        <warning>
+            You MUST supply a valid URI scheme (<code>http://</code>, <code>https://</code>, <code>file://</code>)
+            in the <code>UpstreamImageAssetBaseUri</code> setting. If using <code>http</code> or <code>https</code>,
+            invalid URLs will throw a <code>UriFormatException</code>. If using <code>file</code>, a missing or
+            invalid path will throw a <code>DirectoryNotFoundException</code>.
+        </warning>
+    </snippet>
+
+    <snippet id="LibraryDI">
+        <p>
+            The library includes a <code>ServiceCollection</code> extension method to simplify its registration with the
+            dependency injection container. Include the following in your <code>Program.cs</code>:
+        </p>
+        <list type="decimal">
+            <li>
+                <p>Add the following <code>using</code> statement:</p>
+                <code-block lang="c#">
+                    using ABSolutions.SvgAssetCollector.DependencyInjection;
+                </code-block>
+            </li>
+            <li>
+                <p>Add the following lines anywhere before <code>builder.Build()</code>:</p>
+                <code-block lang="c#">
+                    builder.Services.AddHttpClient(&quot;SvgAssetCollectorClient&quot;);
+                    builder.Services.AddSvgAssetCollector(builder.Configuration);
+                </code-block>
+                <warning>
+                    Please ensure the name you specify for the <code>HttpClient</code> matches the one specified in the
+                    library configuration in <code>appsettings.json</code>. If this is not the case, customizations in
+                    your named <code>HttpClient</code> will not be used!
+                </warning>
+                <tip>
+                    You can reuse/share an existing `HTTPClient` with this library if you want. Also, the `HttpClient`
+                    can be customized with headers, delegating handlers, etc. The specifics on how to do this are beyond
+                    the scope of this document.
+                </tip>
+            </li>
+        </list>
+    </snippet>
+
 </topic>
