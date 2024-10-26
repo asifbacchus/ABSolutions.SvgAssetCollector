@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic id="Library_Demo_Create-endpoints"
+       title="Create endpoints"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <link-summary>API Demo: Creating API endpoints to show library usage.</link-summary>
+    <card-summary>Build an endpoint to show how this library can be used.</card-summary>
+    <web-summary>ABSolutions.SvgAssetCollector API demo: Building the request endpoint.</web-summary>
+
+    <p>
+        We'll be making an additional endpoint for this demo project. To keep things simple, we'll put it in the <code>Program.cs</code>
+        file. Add the following section after the existing <code>MapGet</code> endpoint:
+    </p>
+    <code-block include-lines="34-46" lang="c#" src="Library_Demo_Program.cs"/>
+    <p>
+        This endpoint takes a <code>filename</code> argument as part of the route path. It accepts either
+        <code>red</code> or <code>blue</code> as valid values.
+    </p>
+    <p>
+        If a valid <code>filename</code> is provided, it will be mapped to a valid upstream file name on my development
+        server and that will SVG will be returned. Any other values will result in a 404 error and the default SVG being
+        returned.
+    </p>
+
+    <chapter id="return_value" title="Return value">
+        <p>
+            As you can see in the endpoint code, we are using a simple mapping for the <code>filename</code> route
+            parameter. Any non-valid values are mapped to <code>noExist.svg</code> which, as the name suggests, does not
+            exist.
+        </p>
+        <p>
+            My server will return a 404 error for this non-existent file and the library will intercept this. It will
+            set the <code>IsSuccess</code> flag to <code>false</code> and will populate the <code>Markup</code> property
+            with the *default SVG*.
+        </p>
+        <p>
+            The endpoint checks the <code>IsSuccess</code> and sets return status codes accordingly:
+        </p>
+        <code-block include-lines="45" lang="c#" src="Library_Demo_Program.cs"/>
+        <p>
+            Notice, however, in both cases the return *body* is the same: <code>svg.Markup.Value</code>. If the SVG was
+            successfully retrieved, the <code>Markup</code> property will contain the SVG. Otherwise, it will contain
+            the *default SVG*. Either way, it is always populated and can be returned.
+        </p>
+        <p>
+            Finally, notice that the return is already properly formatted for a markup-renderer such as Blazor or any
+            web browser. This is intentional and why the return type is a <code>MarkupString</code> instead of a normal
+            <code>string</code>. If you need a <code>string</code>, you can use the <code>ToString()</code> extension
+            method.
+        </p>
+    </chapter>
+
+    <chapter id="correlation_logging" title="Correlation logging">
+        <p>
+            Notice that we are generating a <code>GUID</code> as a sample correlation identifier. Since we've enabled
+            structured JSON logging and configured the library to use a <code>LoggingCorrelationIdentifier</code> (in
+            <code>appsettings.json</code>), we will see this <code>GUID</code> in the logs.
+        </p>
+    </chapter>
+
+</topic>
