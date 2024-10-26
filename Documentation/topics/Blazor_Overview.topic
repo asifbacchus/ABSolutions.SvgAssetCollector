@@ -1,9 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE topic
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
-<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       title="A-B Solutions: SvgAssetCollector - Blazor Component" id="Blazor_Overview">
+<topic id="Blazor_Overview"
+       title="A-B Solutions: SvgAssetCollector - Blazor Component"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
 
-    <p>Start typing here...</p>
+    <link-summary>
+        General overview and information about the %ProjectName% Blazor Component.
+    </link-summary>
+    <card-summary>
+        General overview and information about the %ProjectName% Blazor Component.
+    </card-summary>
+    <web-summary>
+        Information about %ProjectName% Blazor Component and links to in-depth documentation.
+    </web-summary>
+    <show-structure depth="2"/>
+
+    <chapter id="project_information" title="Project information">
+        <table style="none">
+            <tr>
+                <td>Author</td>
+                <td>%AuthorName%</td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td>%AuthorEmail%</td>
+            </tr>
+            <tr>
+                <td>Git repo</td>
+                <td>
+                    <a href="%GitRepo%"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Documentation</td>
+                <td>
+                    <a href="%DocUrl_Blazor%"/>
+                </td>
+            </tr>
+        </table>
+        <chapter id="project_description" title="Description">
+            <p>
+                <code>%ProjectBlazorName%</code> is a Blazor Component that helps implement the
+                <code>%ProjectLibraryName%</code> library in a Blazor application. The component takes care of
+                injecting the backend library and all other &quot;code-behind&quot; tasks. You can simply drop this
+                component into your Blazor page, specify the file name to retrieve as an attribute, and an <code>&lt;svg&gt;</code>
+                node will be extracted and placed *inline* in your Blazor page!
+                <format style="bold">No Javascript required</format>
+                .
+            </p>
+            <p>
+                Since this component is an implementation of the underlying library, you should refer to the
+                <a href="%DocUrl_Library%">%ProjectLibraryName%</a>
+                documentation for background information. This documentation will focus specifically on using the Blazor
+                component.
+            </p>
+        </chapter>
+    </chapter>
+    <chapter id="requirements_and_dependencies" title="Requirements and dependencies">
+        <p>This library is targeted for .NET Core 8 and has the following dependencies:</p>
+        <list>
+            <li><code>%ProjectLibraryName%</code> (&gt;= 1.0.0)</li>
+        </list>
+    </chapter>
+    <chapter id="using_this_library" title="Using this library">
+        <chapter id="usage_example" title="Usage example">
+            <p>Since this is a component, you can use it in your Blazor pages like this:</p>
+            <code-block lang="html">
+                @page &quot;/my-page-with-an-svg&quot;
+                @using ABSolutions.SvgAssetCollector.BlazorComponent
+
+                &lt;h1&gt;My Page with an SVG&lt;/h1&gt;
+                &lt;p&gt;The SVG below is injected as <em>code</em> and can be styled using CSS!&lt;/p&gt;
+                &lt;SvgAssetCollector Filename="myFile.svg"/&gt;
+            </code-block>
+            <tip>
+                <p>This example omits backend configuration, etc. This is just a sample showing how easily the component
+                    itself (<code>SvgAssetCollector</code> tag) can integrate with your projects.
+                </p>
+            </tip>
+        </chapter>
+        <chapter id="detailed_usage_information" title="Detailed usage information">
+            <p>Please refer to the following topics for more information about using this library:</p>
+            <list>
+                <li><a href="Blazor_Quickstart.md"/></li>
+                <li><a href="Blazor_Build-a-demo-blazor-site.md"/></li>
+            </list>
+            <p>
+                You can also inspect the <code>%ProjectName%.Demo.Blazor</code> project in the
+                <a href="%GitRepo%">git repo</a>.
+            </p>
+        </chapter>
+    </chapter>
+    <include element-id="TOU" from="Shared_Snippets.topic"/>
+    <include element-id="Contribution-Guidelines" from="Shared_Snippets.topic"/>
+    <include element-id="BugsAndHelp" from="Shared_Snippets.topic"/>
 </topic>
