@@ -7,4 +7,5 @@
                   start-page="Blazor_Overview.topic">
 
     <toc-element topic="Blazor_Overview.topic"/>
+    <toc-element topic="Blazor_Quickstart.md"/>
 </instance-profile>
