@@ -14,7 +14,7 @@
         We'll be making an additional endpoint for this demo project. To keep things simple, we'll put it in the <code>Program.cs</code>
         file. Add the following section after the existing <code>MapGet</code> endpoint:
     </p>
-    <code-block include-lines="34-52" lang="c#" src="Library_Demo_Program.cs"/>
+    <code-block include-lines="34-54" lang="c#" src="Library_Demo_Program.cs"/>
     <p>
         This endpoint takes a <code>filename</code> argument as part of the route path. It accepts either
         <code>red</code> or <code>blue</code> as valid values.
@@ -60,7 +60,7 @@
         <p>
             The endpoint checks the <code>IsSuccess</code> and sets return status codes accordingly:
         </p>
-        <code-block include-lines="45" lang="c#" src="Library_Demo_Program.cs"/>
+        <code-block include-lines="51-53" lang="c#" src="Library_Demo_Program.cs"/>
         <p>
             Notice, however, in both cases the return *body* is the same: <code>svg.Markup.Value</code>. If the SVG was
             successfully retrieved, the <code>Markup</code> property will contain the SVG. Otherwise, it will contain

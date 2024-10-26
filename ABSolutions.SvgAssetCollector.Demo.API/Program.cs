@@ -48,7 +48,9 @@ app.MapGet("/svg/{filename}",
         };
         var svg = await svgAssetCollector.GetSvgAssetAsync(requestFilename, addAttributes ? sizeAttributes : null,
             loggingCorrelationValue: correlationValue);
-        return svg.IsSuccess ? Results.Ok(svg.Markup.Value) : Results.NotFound(svg.Markup.Value);
+        return svg.IsSuccess
+            ? Results.Ok(svg.Markup.Value)
+            : Results.NotFound(svg.Markup.Value);
     });
 
 app.Run();
