@@ -72,7 +72,7 @@
                 @using ABSolutions.SvgAssetCollector.BlazorComponent
 
                 &lt;h1&gt;My Page with an SVG&lt;/h1&gt;
-                &lt;p&gt;The SVG below is injected as <em>code</em> and can be styled using CSS!&lt;/p&gt;
+                &lt;p&gt;The SVG below is injected as &lt;em&gt;code&lt;/em&gt; and can be styled using CSS!&lt;/p&gt;
                 &lt;SvgAssetCollector Filename="myFile.svg"/&gt;
             </code-block>
             <tip>
