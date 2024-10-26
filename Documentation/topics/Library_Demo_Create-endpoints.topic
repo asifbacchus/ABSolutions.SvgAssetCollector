@@ -14,7 +14,7 @@
         We'll be making an additional endpoint for this demo project. To keep things simple, we'll put it in the <code>Program.cs</code>
         file. Add the following section after the existing <code>MapGet</code> endpoint:
     </p>
-    <code-block include-lines="34-46" lang="c#" src="Library_Demo_Program.cs"/>
+    <code-block include-lines="34-52" lang="c#" src="Library_Demo_Program.cs"/>
     <p>
         This endpoint takes a <code>filename</code> argument as part of the route path. It accepts either
         <code>red</code> or <code>blue</code> as valid values.
@@ -24,6 +24,27 @@
         server and that will SVG will be returned. Any other values will result in a 404 error and the default SVG being
         returned.
     </p>
+
+    <chapter id="query_params" title="Query parameters">
+        <p>
+            This endpoint accepts a query parameter, <code>addAttributes</code>, which controls if the SVG should be
+            modified to contain the <code>height</code> and <code>width</code> attributes contained in the <code>sizeAttributes</code>
+            dictionary:
+        </p>
+        <list>
+            <li>
+                <code>?addAttributes=false</code>: This is the default setting. The SVG will be returned as-is.
+            </li>
+            <li>
+                <code>?addAttributes=true</code>: <code>height</code> and <code>width</code> attributes will be added to
+                the retrieved SVG node, or modified if they already exist, to match the values in the <code>sizeAttributes</code>
+                dictionary.
+            </li>
+        </list>
+        <p>
+            This is discussed in more detail on the <a href="Library_Adding-svg-attributes.md"/> page.
+        </p>
+    </chapter>
 
     <chapter id="return_value" title="Return value">
         <p>

@@ -22,6 +22,15 @@ Submit a GET request to `/svg/{filename}` to retrieve an SVG file from my develo
 - `/svg/red`: Will return an SVG as a `MarkupString` with a status 200.
 - `/svg/???`: Anything other than the above options will return the *default* SVG as a `MarkupString` with status 404.
 
+### Modifying SVG attributes
+
+If you retrieve the SVG as above, you'll notice each SVG has `height=\"100\"` and `width=\"400\"` attributes. To see the
+effect of the `Attributes` parameter, submit a GET request to `/svg/{filename}?addAttributes=true` where `filename` is
+either `blue` or `red`.
+
+Notice now that the SVG has `height=\"1234\"` and `width=\"4321\"` attributes. This is the effect of the `Attributes`
+parameter applying the `sizeAttributes` dictionary values to the retrieved SVG node.
+
 ## Caching
 
 You'll notice if you make multiple requests to the same endpoint and route parameter (i.e. `/svg/blue`), you'll get a
