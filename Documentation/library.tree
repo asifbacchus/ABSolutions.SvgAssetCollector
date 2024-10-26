@@ -12,6 +12,7 @@
     <toc-element topic="Library_Dependency-injection.md"/>
     <toc-element topic="Library_HTTP-client.md"/>
     <toc-element topic="Library_Calling-the-library.md"/>
+    <toc-element topic="Library_Adding-svg-attributes.md"/>
     <toc-element topic="Library_Build-a-demo-api.md">
         <toc-element topic="Library_Demo_Prerequisites-and-configuration.md"/>
         <toc-element topic="Library_Demo_Create-endpoints.topic"/>

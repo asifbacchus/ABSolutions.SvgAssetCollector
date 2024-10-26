@@ -22,8 +22,10 @@ Submit a GET request to `/svg/{filename}` to retrieve an SVG file from my develo
 - `/svg/red`: Will return an SVG as a `MarkupString` with a status 200.
 - `/svg/???`: Anything other than the above options will return the *default* SVG as a `MarkupString` with status 404.
 
-### Modifying SVG attributes
+### Modifying SVG attributes {id="demo-run-modifying-svg-attributes"}
 
+<link-summary>API Demo: Easily see the effect of applying attributes by toggling the 'addAttributes' query parameter</link-summary>
+<card-summary>API Demo: Easily see the effect of applying attributes by toggling the 'addAttributes' query parameter</card-summary>
 If you retrieve the SVG as above, you'll notice each SVG has `height=\"100\"` and `width=\"400\"` attributes. To see the
 effect of the `Attributes` parameter, submit a GET request to `/svg/{filename}?addAttributes=true` where `filename` is
 either `blue` or `red`.
