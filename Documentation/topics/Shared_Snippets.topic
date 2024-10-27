@@ -181,4 +181,68 @@
         </list>
     </snippet>
 
+    <snippet id="DemoLibraryConfiguration">
+        <code-block lang="json" src="Library_Demo_appsettings.json"/>
+        <p>
+            Everything is default except for the <code>UpstreamSvgAssetBaseUri</code>. We'll be using my development
+            server to provide us with two properly formatted SVG images. I have also specified
+            <code>TransactionId</code> as my <code>LoggingCorrelationIdentifier</code> to demonstrate how this library
+            can be integrated in a correlated logging solution.
+        </p>
+        <tip>
+            <p>
+                I've changed the logging level for the <code>ABSolutions.SvgAssetCollector</code> namespace to <code>Debug</code>.
+                This is optional, but it will let you see more output on the console and better understand what the
+                library is doing.
+            </p>
+        </tip>
+    </snippet>
+
+    <snippet id="DemoLibraryLoggingConfiguration">
+        <p>
+            To demonstrate how this package outputs structured logging information, we'll use the included Microsoft
+            Logging Extensions but configured for somewhat nauseatingly verbose JSON output. I always prefer to
+            configure logging before anything else in my program, so I modified the beginning of my
+            <code>Program.cs</code> as follows:
+        </p>
+        <code-block include-lines="7-18" lang="c#" src="Library_Demo_Program.cs"/>
+        <p>
+            If you're not interested in structured logging or don't care for the verbose output, you can modify or even
+            omit this entirely. If you don't configure anything, you'll still get standard text output to the console
+            but you will not see the 'correlation logging' option output.
+        </p>
+    </snippet>
+
+    <snippet id="DemoHttpClientConfiguration">
+        <p>
+            We'll be using a lightly customized named <code>HttpClient</code> instance using the default name the
+            library expects (<code>SvgAssetCollectorClient</code>) and two custom request headers as an example:
+        </p>
+        <code-block include-lines="20-27" lang="c#" src="Library_Demo_Program.cs"/>
+        <tip>
+            <p>
+                The <code>Accept</code> header tells the upstream service that we only want SVG files. This is strongly
+                recommended. The <code>UserAgent</code> header is included as an example of other headers that can be
+                added.
+            </p>
+        </tip>
+        <p>
+            This can be added to the <code>Program.cs</code> anywhere before the <code>builder.Build()</code> method is
+            called.
+        </p>
+    </snippet>
+
+    <snippet id="DemoLibraryServiceDI">
+        <p>
+            We'll use the library's service extension method to register the library's services with the dependency
+            injection container. Since the extension method requires access to the service configuration in <code>appsettings.json</code>,
+            we'll pass the builder configuration object as an argument.
+        </p>
+        <p>
+            You can add this registration call anywhere in the <code>Program.cs</code> file before the <code>builder.Build()</code>
+            method is called. Here's an example along with the <code>HttpClient</code> registration:
+        </p>
+        <code-block include-lines="20-30" lang="c#" src="Library_Demo_Program.cs"/>
+    </snippet>
+
 </topic>
