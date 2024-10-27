@@ -8,4 +8,5 @@
 
     <toc-element topic="Blazor_Overview.topic"/>
     <toc-element topic="Blazor_Quickstart.md"/>
+    <toc-element topic="Blazor_Attributes.topic"/>
 </instance-profile>

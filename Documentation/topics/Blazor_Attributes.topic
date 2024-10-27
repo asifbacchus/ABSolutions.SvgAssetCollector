@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic id="Blazor_Attributes"
+       title="Component attributes"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <link-summary>
+        Detailed explanation of all configuration attributes available for the SvgAssetCollector Blazor component.
+    </link-summary>
+    <card-summary>
+        Detailed explanation of all configuration attributes available for the SvgAssetCollector Blazor component.
+    </card-summary>
+    <web-summary>Configuration attributes for the SvgAssetCollector Blazor component.</web-summary>
+
+    The SvgAssetCollector Blazor component can be called with any (or none) of the following attributes to customize its
+    behaviour.
+
+    <tip>
+        While not strictly required, the <code>Filename</code> attribute is obviously one that you will use nearly 100%
+        of the time. If a file name is not provided, the
+        <emphasis>default SVG</emphasis>
+        will be returned.
+    </tip>
+
+    <deflist collapsible="true">
+        <def id="blazor-attribute-filename" title="string:Filename">
+            <p>
+                The name of the SVG file to retrieve from the upstream source. This can be a relative path or just a
+                file name. In either case, remember that the <code>UpstreamSVGAssetBaseUri</code> will be prepended.
+                If no file name (i.e. null) is provided, the default SVG will be returned.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>null</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-ariaHidden" title="bool:AriaHidden">
+            <p>
+                Whether the SVG should be hidden from screen readers. This is used as the <code>aria-hidden</code>
+                attribute in the generated <code>SVG</code> node.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>true</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-ariaLabel" title="string:AriaLabel">
+            <p>
+                Label for the SVG for screen readers. This is used as the <code>aria-label</code> attribute in the
+                generated <code>svg</code> node. If this attribute is omitted or is empty, no <code>aria-label</code>
+                attribute will be generated.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>empty string</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-ariaDescription" title="string:AriaDescription">
+            <p>
+                Description of the SVG for screen readers. This is used as the <code>aria-description</code> attribute
+                in the generated <code>svg</code> node. If this attribute is omitted or is empty, no <code>aria-description</code>
+                attribute will be generated.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>empty string</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-class" title="string:Class">
+            <p>
+                CSS class(es) to apply to the generated <code>svg</code> node. Multiple classes should be separated by
+                spaces just as in normal HTML. If this attribute is omitted or is empty, no <code>class</code> attribute
+                will be generated.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>empty string</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-height" title="int:Height">
+            <p>
+                Height of this SVG in pixels. This is used to avoid "flash of un-styled content" and image "jank" when
+                loading the SVG since the browser knows exactly how much space to allocate to the SVG before it's even
+                processed.
+            </p>
+            <list>
+                <li>
+                    If the SVG node does not define a height, this attribute will be used to set the height.
+                </li>
+                <li>
+                    If the SVG node already defines a height, it will be modified to match this value.
+                </li>
+                <li>
+                    If this attribute is null or omitted, the <code>height</code> attribute will be left as-is in the
+                    SVG node if it already exists, otherwise no <code>height</code> attribute will be generated.
+                </li>
+            </list>
+            <p>
+                <format style="bold">Default:</format>
+                <code>null</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-role" title="string:Role">
+            <p>
+                Role of the SVG for screen readers. This is used as the <code>role</code> attribute in the generated
+                <code>svg</code> node. For accessibility compliance reasons, this should never be null or missing. Thus,
+                this attribute defaults to <code>graphics-symbol</code>.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>graphics-symbol</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-width" title="int:Width">
+            <p>
+                Width of this SVG in pixels. This is used to avoid "flash of un-styled content" and image "jank" when
+                loading the SVG since the browser knows exactly how much space to allocate to the SVG before it's even
+                processed.
+            </p>
+            <list>
+                <li>
+                    If the SVG node does not define a width, this attribute will be used to set the width.
+                </li>
+                <li>
+                    If the SVG node already defines a width, it will be modified to match this value.
+                </li>
+                <li>
+                    If this attribute is null or omitted, the <code>width</code> attribute will be left as-is in the SVG
+                    node if it already exists, otherwise no <code>width</code> attribute will be generated.
+                </li>
+            </list>
+            <p>
+                <format style="bold">Default:</format>
+                <code>null</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-useCache" title="bool:UseCache">
+            <p>
+                Whether to use the in-memory cache to store the SVG node.
+            </p>
+            <list>
+                <li>
+                    <code>false</code>:
+                    Upstream SVG will be retrieved and encoded every time the component is rendered.
+                </li>
+                <li>
+                    <code>true</code>:
+                    SVG node will be stored in the in-memory cache and reused on subsequent renders so long
+                    as the cache entry has not expired.
+                </li>
+                <li>
+                    <code>null</code> or not specified:
+                    Configuration value in <code>appsettings.json</code> will be used.
+                </li>
+            </list>
+            <p>
+                <format style="bold">Default:</format>
+                <code>null</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-noExpiry" title="bool:NoExpiry">
+            <list>
+                <li>
+                    <code>true</code>:
+                    Cached entry for this asset will never expire (unless the hosting application is restarted). This
+                    can be useful for images that are not expected to change.
+                </li>
+                <li>
+                    <code>false</code>, <code>null</code> or not specified:
+                    Configuration value in <code>appsettings.json</code> will be used.
+                </li>
+            </list>
+            <p>
+                <format style="bold">Default:</format>
+                <code>null</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-logCorrelationValue" title="string:LogCorrelationValue">
+            <p>
+                A value to use for logging correlation. This value is forwarded to the backend library and used to
+                populate the <code>LogContext</code> object. If this attribute is omitted or is empty, no correlation
+                value will be added to the <code>LogContext</code>.
+            </p>
+            <p>
+                Please refer to the <a href="%DocUrl_Library%">backend library documentation</a> for more information
+                about log correlation.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>empty string</code>
+            </p>
+        </def>
+        <def id="blazor-attribute-cancellationToken" title="CancellationToken:CancellationToken">
+            <p>
+                A <code>CancellationToken</code> that can be used to cancel the operation of retrieving the image from
+                the upstream source. If this attribute is omitted or is <code>null</code>, no cancellation token will be
+                used and the task itself will not be cancellable.
+            </p>
+            <p>
+                <format style="bold">Default:</format>
+                <code>null</code>
+            </p>
+        </def>
+    </deflist>
+
+</topic>
