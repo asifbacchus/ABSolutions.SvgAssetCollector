@@ -14,9 +14,9 @@
     [Parameter] public string AriaLabel { get; set; } = string.Empty;
     [Parameter] public string AriaDescription { get; set; } = string.Empty;
     [Parameter] public string Class { get; set; } = string.Empty;
-    [Parameter] public string Height { get; set; } = string.Empty;
+    [Parameter] public int? Height { get; set; }
     [Parameter] public string Role { get; set; } = "graphics-symbol";
-    [Parameter] public string Width { get; set; } = string.Empty;
+    [Parameter] public int? Width { get; set; }
     [Parameter] public Dictionary<string, string> Attributes { get; set; } = [];
 
     [Parameter] public bool? UseCache { get; set; }
@@ -35,11 +35,11 @@
             _svgAttributes.Add("aria-description", AriaDescription);
         if (!string.IsNullOrWhiteSpace(Class))
             _svgAttributes.Add("class", Class);
-        if (!string.IsNullOrWhiteSpace(Height))
-            _svgAttributes.Add("height", Height);
+        if (Height >= 0)
+            _svgAttributes.Add("height", Height.ToString() ?? "0");
         _svgAttributes.Add("role", Role.ToLowerInvariant());
-        if (!string.IsNullOrWhiteSpace(Width))
-            _svgAttributes.Add("width", Width);
+        if (Width >= 0)
+            _svgAttributes.Add("width", Width.ToString() ?? "0");
 
         // add user-supplied attributes iff they do not already exist
         foreach (var (key, value) in Attributes)
