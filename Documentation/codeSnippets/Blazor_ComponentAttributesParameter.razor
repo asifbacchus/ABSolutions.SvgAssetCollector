@@ -1,0 +1,17 @@
+@page "/image"
+@using ABSolutions.SvgAssetCollector.BlazorComponent
+
+<SvgAssetCollector
+    Filename="vectors.svg"
+    Height=250
+    Width=500
+    Attributes="_attributes"/>
+
+@code {
+    private readonly Dictionary<string, string> _attributes = new()
+    {
+        { "crossorigin", "anonymous" },
+        { "data-analytics-tag", "myTag"},
+        { "height", "100"} // this will be ignored
+    }
+}

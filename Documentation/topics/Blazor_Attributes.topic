@@ -177,6 +177,43 @@
                 <code>null</code>
             </p>
         </def>
+        <def id="blazor-attribute-attributes" title="dictionary<string, string>:Attributes">
+            <p>
+                A
+                <emphasis>dictionary</emphasis>
+                of additional attributes to apply to the generated <code>svg</code> node.
+            </p>
+            <list>
+                <li>
+                    <code>key</code>:
+                    The attribute name.
+                </li>
+                <li>
+                    <code>value</code>:
+                    The attribute value.
+                </li>
+            </list>
+            <p>
+                This is completely free-form, thus, you can specify custom or even invalid attributes
+                (
+                <emphasis>be careful!</emphasis>
+                ).
+                Please note that these attributes are concatenated to those set by the other attributes listed on
+                this page. If this attribute is omitted or is empty, no additional attributes will be generated.
+            </p>
+            <warning>
+                Attributes supplied here CANNOT override or overwrite those set by the attributes listed on this page.
+                This attribute is meant for supplying
+                <emphasis>additional</emphasis>
+                or
+                <emphasis>custom</emphasis>
+                attributes only.
+            </warning>
+            <p>
+                <format style="bold">Default:</format>
+                <code>empty set</code>
+            </p>
+        </def>
         <def id="blazor-attribute-logCorrelationValue" title="string:LogCorrelationValue">
             <p>
                 A value to use for logging correlation. This value is forwarded to the backend library and used to
@@ -204,5 +241,32 @@
             </p>
         </def>
     </deflist>
+
+    <chapter id="attributes_parameter_example" title="Attributes parameter example">
+        <p>
+            The <code>Attributes</code> parameter can be slightly confusing. It is meant to supply additional attributes
+            not otherwise covered by the other parameters. In addition, it allows for providing custom parameters that
+            may be necessary for Javascript references, analytics, etc. Here is an example of how to use it:
+        </p>
+        <code-block lang="razor" src="Blazor_ComponentAttributesParameter.razor"/>
+        <p>
+            Here you can see that we define our dictionary of attributes and then pass it to the component. This is done
+            in code just for ease of maintainability. You can do it inline but that leads to very messy code.
+        </p>
+        <p>
+            In this example, we are passing the following additional attributes:
+        </p>
+        <list>
+            <li><code>crossorigin</code> to specify CORS handling</li>
+            <li><code>data-...</code> example custom attribute used for analytics tracking</li>
+            <li>
+                <code>height</code>
+                this will be
+                <format style="bold">ignored</format>
+                since this attribute cannot overwrite the existing explicitly defined <code>Height</code> attribute. The
+                same would be true for the <code>Width</code> attribute.
+            </li>
+        </list>
+    </chapter>
 
 </topic>
