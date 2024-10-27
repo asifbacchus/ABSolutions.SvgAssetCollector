@@ -35,7 +35,7 @@
         <p>
             Next, we'll add some markup to call the component:
         </p>
-        <code-block include-lines="4-26" lang="razor" src="Blazor_Demo_SvgPage-0.razor"/>
+        <code-block include-lines="4-28" lang="razor" src="Blazor_Demo_SvgPage-0.razor"/>
         <p>
             Here you can see that we are using some <a href="Blazor_Attributes.topic">attributes</a> to configure the
             component.
@@ -53,14 +53,15 @@
             </li>
             <li>
                 Finally, we are purposely calling a non-existent SVG file (<code>NoExist.svg</code>) to show the
-                component's error handling -- it will return the default SVG.
+                component's error handling -- it will return the default SVG. To prevent a "flash of un-styled content",
+                we are also specifying a height and width for the SVG element.
             </li>
         </list>
         <p>
             I am sure you noticed the CSS classes in the above code. Let's define them and you'll see how easy it is to
             style the SVG when it's inlined instead of being added as an image or object:
         </p>
-        <code-block include-lines="28-56" lang="css" src="Blazor_Demo_SvgPage-0.razor"/>
+        <code-block include-lines="30-58" lang="css" src="Blazor_Demo_SvgPage-0.razor"/>
         <p>
             <format style="bold">That's all you need!</format>
             The component will handle all retrieval and SVG inlining for you. However, there are
@@ -78,7 +79,7 @@
         </code-block>
         In the demo project, we create a GUID each time the page loads and pass that to the component which, in turn,
         passes it to the backend library. We accomplish this with the following modified code section:
-        <code-block include-lines="61-75" lang="c#" src="Blazor_Demo_SvgPage-1.razor"/>
+        <code-block include-lines="63-71" lang="c#" src="Blazor_Demo_SvgPage-1.razor"/>
 
         <tip>
             In real applications, you will probably have a log correlation value injected into this page or the
@@ -106,7 +107,7 @@
             situation where we'll cancel the token roughly 50% of the time. This will cancel the upstream call and
             trigger the backend library to return the default SVG instead. Here's how we'll implement this:
         </p>
-        <code-block include-lines="85-94" lang="c#" src="Blazor_Demo_SvgPage-final.razor"/>
+        <code-block include-lines="80-89" lang="c#" src="Blazor_Demo_SvgPage-final.razor"/>
         <tip>
             This is obviously a very ugly example and I'm in no way saying this a good way to handle cancellation
             tokens. The goal here is to show what happens -- namely that the default SVG is returned.

@@ -24,7 +24,9 @@
     </p>
     <SvgAssetCollector
         Filename="NoExist.svg"
-        Attributes="_svgAttributesForError"
+        Role="img"
+        Height=200
+        Width=200
         LogCorrelationValue="@_logCorrelationValue"/>
 </span>
 
@@ -60,12 +62,6 @@
 
 @code {
     private string _logCorrelationValue = string.Empty;
-
-    private readonly Dictionary<string, string> _svgAttributesForError = new()
-    {
-        {"width", "200"},
-        {"height", "200"}
-    };
 
     protected override async Task OnInitializedAsync()
     {

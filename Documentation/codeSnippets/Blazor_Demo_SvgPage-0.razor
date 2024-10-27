@@ -22,7 +22,9 @@
     </p>
     <SvgAssetCollector
         Filename="NoExist.svg"
-        Attributes="_svgAttributesForError"/>
+        Role="img"
+        Height=200
+        Width=200 />
 </span>
 
 <style>
@@ -56,10 +58,4 @@
 </style>
 
 @code {
-    private readonly Dictionary<string, string> _svgAttributesForError = new()
-    {
-        {"width", "200"},
-        {"height", "200"}
-    };
-
 }
