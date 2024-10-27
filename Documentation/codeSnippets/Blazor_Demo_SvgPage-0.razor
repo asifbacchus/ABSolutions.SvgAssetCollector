@@ -1,0 +1,65 @@
+@page "/svg"
+@using ABSolutions.SvgAssetCollector.BlazorComponent
+
+<h1>Inline SVGs</h1>
+<p>Here are some SVGs embedded into this page.</p>
+<span class="svg-blue">
+    <!-- using default ARIA attributes -->
+    <SvgAssetCollector
+        Filename="IAmBlue.svg"
+        UseCache="false"/>
+</span>
+<span class="svg-red">
+    <SvgAssetCollector
+        Filename="IAmRed.svg"
+        AriaHidden="false"
+        AriaLabel="This is red"
+        Role="img"/>
+</span>
+<span class="svg-error">
+    <p>
+        The SVG requested below does NOT exist, so the default image is used.
+    </p>
+    <SvgAssetCollector
+        Filename="NoExist.svg"
+        Attributes="_svgAttributesForError"/>
+</span>
+
+<style>
+    .svg-blue rect {
+        color: blue;
+    }
+
+    .svg-blue path {
+        color: white;
+    }
+
+    .svg-red rect {
+        color: red;
+    }
+
+    .svg-red path {
+        color: white;
+    }
+
+    .svg-error p {
+        margin-top: 2em;
+        margin-bottom: 0.5em;
+    }
+
+    .svg-error svg {
+        color: black;
+        width: 200px;
+        height: 200px;
+    }
+
+</style>
+
+@code {
+    private readonly Dictionary<string, string> _svgAttributesForError = new()
+    {
+        {"width", "200"},
+        {"height", "200"}
+    };
+
+}

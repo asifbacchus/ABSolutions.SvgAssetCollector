@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic id="Blazor_Demo_Project-set-up"
+       title="Demo project set-up"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <link-summary>
+        Blazor Demo: Set up the demo project and configure the backend library.
+    </link-summary>
+    <card-summary>
+        Add and configure the backend SvgAssetCollector library in the Blazor demo project.
+    </card-summary>
+    <web-summary>
+        ABSolutions.SvgAssetCollector Blazor demo: Project set-up and configuration.
+    </web-summary>
+
+    <chapter id="project_template" title="Project template">
+        <p>
+            Create a new <code>Blazor Web App</code> using .NET 8.0. The render mode is up to you, but
+            <code>Server</code> is easiest for this demo. Interactivity should be <code>per page/component</code>
+            (actually, we are only using static-rendering). We do not require authentication or docker for this demo.
+        </p>
+    </chapter>
+
+    <chapter id="nu_get_packages" title="NuGet packages">
+        <p>
+            Please install the <code>ABSolutions.SvgAssetCollector.BlazorComponent</code> package. This will
+            automatically
+            install the backend library dependency.
+        </p>
+    </chapter>
+
+    <chapter id="library_configuration" title="Library configuration">
+        <p>
+            Since this component relies on the backend library to actually retrieve and convert images, we need to
+            configure that library. This is done via the <code>appsettings.json</code> file. If you need more detailed
+            instructions, please refer to the <a href="%DocUrl_Library%">library documentation</a>.
+        </p>
+        <include element-id="DemoLibraryConfiguration" from="Shared_Snippets.topic"/>
+    </chapter>
+
+    <chapter id="register_services" title="Register services">
+        Before we can use the component, we need to register the backend library with the DI container. We also need to
+        register a named HTTP Client.
+        <chapter id="logging" title="Logging">
+            <include element-id="DemoLibraryLoggingConfiguration" from="Shared_Snippets.topic"/>
+            <p>
+                For more information about correlation logging, please refer to the
+                <a href="%DocUrl_Library%">library documentation</a>.
+            </p>
+        </chapter>
+        <chapter id="http_client" title="HTTP Client">
+            <include element-id="DemoHttpClientConfiguration" from="Shared_Snippets.topic"/>
+        </chapter>
+        <chapter id="service_injection" title="SvgAssetCollector service">
+            <include element-id="DemoLibraryServiceDI" from="Shared_Snippets.topic"/>
+        </chapter>
+    </chapter>
+</topic>

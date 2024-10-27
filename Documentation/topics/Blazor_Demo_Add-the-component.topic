@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic id="Blazor_Demo_Add-the-component"
+       title="Add the component"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <link-summary>
+        Blazor Demo: Add a page with the component to the demo project.
+    </link-summary>
+    <card-summary>
+        Add a new page to the Blazor demo project and include the component.
+    </card-summary>
+    <web-summary>
+        ABSolutions.SvgAssetCollector Blazor demo: Add a page with the component.
+    </web-summary>
+
+    <p>
+        Now that we have the backend library and the project set up, we can add the component to a page. Since the
+        component makes use of the already injected HTTP client and library, there is no additional code that needs to
+        be added. Any needed configuration is handled via the <a href="Blazor_Attributes.topic">component attributes</a>.
+    </p>
+
+    <chapter id="create_the_page" title="Create the page">
+        <p>
+            Simply add a Blazor page to your project that calls the component along with a filename to retrieve, process
+            and inline. In the demo project, I call the component twice: once without the cache and once with the cache.
+            This lets you see the cache in action.
+        </p>
+        <p>
+            First, we need to configure the routing and reference our component:
+        </p>
+        <code-block include-lines="1-2" lang="razor" src="Blazor_Demo_SvgPage-0.razor"/>
+        <p>
+            Next, we'll add some markup to call the component:
+        </p>
+        <code-block include-lines="4-26" lang="razor" src="Blazor_Demo_SvgPage-0.razor"/>
+        <p>
+            Here you can see that we are using some <a href="Blazor_Attributes.topic">attributes</a> to configure the
+            component.
+        </p>
+        <list>
+            <li>
+                For the <code>IAmBlue.svg</code>, we are using all default values except that we are NOT caching the
+                retrieved node. Thus, every time you load this page you will see this SVG being called from the upstream
+                server.
+            </li>
+            <li>
+                For the <code>IAmRed.svg</code>, we are setting ARIA attributes and defining the image role as
+                <code>img</code>. We are relying on the library configuration in <code>appsettings.json</code> to
+                control caching -- in this case the SVG node will be cached for 5 minutes.
+            </li>
+            <li>
+                Finally, we are purposely calling a non-existent SVG file (<code>NoExist.svg</code>) to show the
+                component's error handling -- it will return the default SVG.
+            </li>
+        </list>
+        <p>
+            I am sure you noticed the CSS classes in the above code. Let's define them and you'll see how easy it is to
+            style the SVG when it's inlined instead of being added as an image or object:
+        </p>
+        <code-block include-lines="28-56" lang="css" src="Blazor_Demo_SvgPage-0.razor"/>
+        <p>
+            <format style="bold">That's all you need!</format>
+            The component will handle all retrieval and SVG inlining for you. However, there are
+            still some more features we can explore in this demo. We'll tackle them one at a time in the following
+            sections.
+        </p>
+    </chapter>
+
+    <chapter id="log_correlation" title="Log correlation">
+        To add log correlation, simply use the <code>LogCorrelationValue</code> attribute, something like this:
+        <code-block lang="razor">
+            &lt;SvgAssetCollector
+                    Filename="my.svg"
+                    LogCorrelationValue="_logCorrelationValue"/&gt;
+        </code-block>
+        In the demo project, we create a GUID each time the page loads and pass that to the component which, in turn,
+        passes it to the backend library. We accomplish this with the following modified code section:
+        <code-block include-lines="61-75" lang="c#" src="Blazor_Demo_SvgPage-1.razor"/>
+
+        <tip>
+            In real applications, you will probably have a log correlation value injected into this page or the
+            component. However, since this is a demo, we just create it here so you can see it appear in your logs.
+        </tip>
+
+        If you want more information on this feature, please refer to the <a href="%DocUrl_Library%">backed-library
+        documentation</a>.
+    </chapter>
+
+    <chapter id="cancellation_tokens" title="Cancellation tokens">
+        <p>
+            If you review the demo project, you'll see that I've included and used <code>cancellation tokens</code> to
+            show how the component handles this and what the default image return looks like. Let's review the code the
+            see how this works.
+        </p>
+        <p>
+            First, we need to initialize a <code>cancellation token</code>. In actual projects, this would probably be
+            done elsewhere, but since this is a standalone demo, we have to do it here in our code block.
+        </p>
+        <code-block include-lines="72-73" lang="c#" src="Blazor_Demo_SvgPage-final.razor"/>
+        <p>
+            Now, we'll create a
+            <emphasis>very contrived</emphasis>
+            situation where we'll cancel the token roughly 50% of the time. This will cancel the upstream call and
+            trigger the backend library to return the default SVG instead. Here's how we'll implement this:
+        </p>
+        <code-block include-lines="85-94" lang="c#" src="Blazor_Demo_SvgPage-final.razor"/>
+        <tip>
+            This is obviously a very ugly example and I'm in no way saying this a good way to handle cancellation
+            tokens. The goal here is to show what happens -- namely that the default SVG is returned.
+        </tip>
+        <p>
+            Now, we have to actually make the cancellation take effect. To do this, we'll only render the page once
+            we've decided whether or not to cancel the token. That will be handled using a simple boolean that delays
+            page rendering until our token's fate is determined. Here's the complete page code:
+        </p>
+        <code-block lang="c#" src="Blazor_Demo_SvgPage-final.razor"/>
+        <p>
+            Notice that we create a <code>boolean</code> called <code>_doRender</code> that controls our page render
+            until after the cancellation token is decided.
+        </p>
+        <p>
+            Also notice we make use of the <code>CancellationToken</code> attribute to link the token to the component.
+            You can see this in the modified component call like this:
+        </p>
+        <code-block lang="razor">
+            &lt;SvgAssetCollector
+                    Filename="my.svg"
+                    ...
+                    CancellationToken="_cancellationToken"/&gt;
+        </code-block>
+        <p>
+            Finally, and here's a real strength of this approach to using SVGs, you can see that we dynamically change
+            the class applied to the SVG based on whether or not the token was cancelled:
+        </p>
+        <code-block lang="razor">
+            &lt;span class="@(_isCancelled ? " svg-error" : "svg-blue")"&gt;
+        </code-block>
+        <p>
+            Since the SVGs are inlined into the HTML, our CSS classes can dynamically change their styling so they react
+            to the token cancellation. This is simply not possible with an image or object tag.
+        </p>
+
+        <chapter id="cancellation_token_results" title="Results">
+            <p>
+                When you access this page, you'll see that the default SVG is returned roughly 50% of the time. In
+                addition, you should notice in your server logs that only <code>IAmBlue.svg</code> is called on each
+                page refresh since it is NOT cached. Thanks to our dynamic SVG styling and CSS classes, everything
+                displays as it should regardless of whether operations are cancelled or not. Plus our SVGs actually
+                reflect their names (i.e. the blue one is blue, the red one is red).
+            </p>
+        </chapter>
+
+    </chapter>
+
+</topic>

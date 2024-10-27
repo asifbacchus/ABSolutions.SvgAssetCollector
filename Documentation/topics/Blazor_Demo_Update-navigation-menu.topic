@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic id="Blazor_Demo_Update-navigation-menu"
+       title="Update navigation menu"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd">
+
+    <link-summary>
+        Blazor Demo: Update the navigation menu to include the SVG page.
+    </link-summary>
+    <card-summary>
+        Add a new navigation menu entry corresponding to the SVG page.
+    </card-summary>
+    <web-summary>
+        ABSolutions.SvgAssetCollector Blazor demo: Update the navigation menu to include the SVG page.
+    </web-summary>
+
+    <p>
+        Now that we have our new page, we need to add a link to it in the navigation menu. This entire section is pretty
+        cosmetic, to be honest, but it's also a pretty routine Blazor task so we'll cover it.
+    </p>
+
+    <chapter id="extracting_a_menu_icon" title="Extracting a menu icon">
+        <note>
+            This entire section is
+            <format style="bold">totally unnecessary</format>
+            , but I wanted to have a nice icon for our new menu item. You can skip this section if you'd like.
+        </note>
+        <p>
+            We'll be using the <a href="https://icons.getbootstrap.com/icons/image-fill/">'image-fill' bootstrap
+            icon</a> for our menu entry. To do this, we'll need to get a URL-encoded version of this icon:
+        </p>
+        <procedure id="blazor-get-menu-icon">
+            <step>Visit the Bootstrap Icon page using the link above.</step>
+            <step>Click the 'Copy' button in the 'Copy HTML' section to get the SVG markup.</step>
+            <step>Go to a site like <a href="https://www.urlencoder.org">URL Encode and Decode</a> and paste the SVG
+                markup into the box at the top of the page.
+            </step>
+            <step>Click the 'Encode' button to get the URL-encoded version of the SVG markup.</step>
+            <step>Change <code>currentColor</code> to <code>white</code>. This ensures the icon's colour matches the
+                demo site scheme.
+            </step>
+            <step>Copy the URL-encoded SVG markup.</step>
+        </procedure>
+        <tip>
+            If you don't want to do the above, and you're happy with my icon choice, you can trust me and just use
+            the following string:<br/>
+            <code-block lang="plain text">
+                %3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22white%22%20class%3D%22bi%20bi-image-fill%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20d%3D%22M.002%203a2%202%200%200%201%202-2h12a2%202%200%200%201%202%202v10a2%202%200%200%201-2%202h-12a2%202%200%200%201-2-2zm1%209v1a1%201%200%200%200%201%201h12a1%201%200%200%200%201-1V9.5l-3.777-1.947a.5.5%200%200%200-.577.093l-3.71%203.71-2.66-1.772a.5.5%200%200%200-.63.062zm5-6.5a1.5%201.5%200%201%200-3%200%201.5%201.5%200%200%200%203%200%22%2F%3E%0A%3C%2Fsvg%3E
+            </code-block>
+        </tip>
+        <p>
+            Now we'll update the navigation menu stylesheet (<code>Components\Layout\NavMenu.razor.css</code>) to
+            include our new icon. Add a new class as follows and save the file.
+        </p>
+        <code-block include-lines="49-50" lang="css" src="Blazor_Demo_NavMenu.razor.css"/>
+        <p>
+            Notice the <code>background-image</code> property. This is where we put our URL-encoded SVG markup that we
+            generated/copied earlier. Start the URL with <code>data:image/svg+xml,</code> and then paste the URL-encoded
+            SVG markup.
+        </p>
+    </chapter>
+
+    <chapter id="adding_the_menu_entry" title="Adding the menu entry">
+        <p>
+            Open the <code>Components\Layout\NavMenu.razor</code> file and add a new menu entry for our SVG page after
+            the 'Weather' entry. It should look like this:
+        </p>
+        <code-block include-lines="23-33" lang="c#" src="Blazor_Demo_NavMenu.razor"/>
+        <note>
+            If you chose to skip the icon section above, the class shown in the above code will NOT work. Simply change
+            the class to <code>bi bi-list-nested-nav-menu</code>.
+        </note>
+    </chapter>
+</topic>
