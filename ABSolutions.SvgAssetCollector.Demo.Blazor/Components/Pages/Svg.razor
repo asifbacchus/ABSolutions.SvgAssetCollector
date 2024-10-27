@@ -7,15 +7,31 @@
     <p>Here are some SVGs embedded into this page.</p>
     <span class="@(_isCancelled ? "svg-error" : "svg-blue")">
         <!-- using default ARIA attributes -->
-        <SvgAssetCollector Filename="IAmBlue.svg" UseCache="false" LogCorrelationValue="@_logCorrelationValue" CancellationToken="CancellationToken"/>
+        <SvgAssetCollector
+            Filename="IAmBlue.svg"
+            UseCache="false"
+            LogCorrelationValue="@_logCorrelationValue"
+            CancellationToken="CancellationToken"/>
     </span>
     <span class="@(_isCancelled ? "svg-error" : "svg-red")">
-        <SvgAssetCollector Filename="IAmRed.svg" AriaHidden="false" AriaLabel="This is red" Role="img"
-                           LogCorrelationValue="@_logCorrelationValue" CancellationToken="CancellationToken"/>
+        <SvgAssetCollector
+            Filename="IAmRed.svg"
+            AriaHidden="false"
+            AriaLabel="This is red"
+            Role="img"
+            LogCorrelationValue="@_logCorrelationValue"
+            CancellationToken="CancellationToken"/>
     </span>
     <span class="svg-error">
-        <p>The SVG requested below does NOT exist, so the default image is used.</p>
-        <SvgAssetCollector Filename="NoExist.svg" Role="img" Attributes="_svgAttributesForError" LogCorrelationValue="@_logCorrelationValue" CancellationToken="CancellationToken"/>
+        <p>
+            The SVG requested below does NOT exist, so the default image is used.
+        </p>
+        <SvgAssetCollector
+            Filename="NoExist.svg"
+            Role="img"
+            Attributes="_svgAttributesForError"
+            LogCorrelationValue="@_logCorrelationValue"
+            CancellationToken="CancellationToken"/>
     </span>
 }
 
@@ -66,13 +82,15 @@
     {
         _logCorrelationValue = Guid.NewGuid().ToString();
 
-        // randomly cancel SVG retrieval 50% of the time to demonstrate cancellation token operation
+        // randomly cancel SVG retrieval 50% of the time to demonstrate
+        // cancellation token operation
         var random = new Random();
         if (random.Next(1, 100) % 2 == 0)
         {
             await _cts.CancelAsync();
             _isCancelled = true;
-            Console.WriteLine("SVG retrieval cancelled via random number generator.");
+            Console
+                .WriteLine("SVG retrieval cancelled via random number generator.");
         }
 
         await Task.CompletedTask;
