@@ -1,0 +1,10 @@
+{
+  "SvgAssetCollector": {
+    "UpstreamSvgAssetBaseUri": "http://localhost",
+    "UpstreamRetrievalTimeoutSeconds": 5,
+    "EnableSvgCache": true,
+    "NoExpiry": false,
+    "SvgCacheExpiryMinutes": 1440,
+    "LoggingCorrelationIdentifier": "TransactionId"
+  }
+}
