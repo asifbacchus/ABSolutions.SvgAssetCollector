@@ -7,6 +7,6 @@
     <var name="AuthorName" value="A-B Solutions (Asif Bacchus)"/>
     <var name="AuthorEmail" value="asif@a-b.solutions"/>
     <var name="GitRepo" value="https://github.com/asifbacchus/ABSolutions.SvgAssetCollector"/>
-    <var name="DocUrl_Library" value="https://a-b.solutions/documentation/nuget/SvgAssetCollector-Library"/>
-    <var name="DocUrl_Blazor" value="https://a-b.solutions/documentation/nuget/SvgAssetCollector-BlazorComponent"/>
+    <var name="DocUrl_Library" value="https://a-b.solutions/documentation/nuget/SvgAssetCollector/Library"/>
+    <var name="DocUrl_Blazor" value="https://a-b.solutions/documentation/nuget/SvgAssetCollector/BlazorComponent"/>
 </vars>
