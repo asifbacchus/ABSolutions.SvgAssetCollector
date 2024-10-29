@@ -7,6 +7,7 @@
         <color-preset>contrast</color-preset>
         <custom-favicons>favicon.ico</custom-favicons>
         <header-logo>logo.svg</header-logo>
+        <include-in-head>head/plausibleAnalytics.include</include-in-head>
         <link-color>#e7b254</link-color>
         <primary-color>#e19f29</primary-color>
         <web-root>https://a-b.solutions/documentation/nuget/SvgAssetCollector</web-root>
