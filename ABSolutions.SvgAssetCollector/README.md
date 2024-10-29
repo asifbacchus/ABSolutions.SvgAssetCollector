@@ -14,5 +14,5 @@ outlined in the configuration documentation.
 | Git repo      | https://github.com/asifbacchus/ABSolutions.SvgAssetCollector        |
 | Author        | A-B Solutions (Asif Bacchus)                                        |
 | Contact       | asif@a-b.solutions                                                  |
-| Documentation | https://a-b.solutions/documentation/nuget/SvgAssetCollector-Library |
+| Documentation | https://a-b.solutions/documentation/nuget/SvgAssetCollector/Library |
 | Nuget         | https://www.nuget.org/packages/ABSolutions.SvgAssetCollector        |

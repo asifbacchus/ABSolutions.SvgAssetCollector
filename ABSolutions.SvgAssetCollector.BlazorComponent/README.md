@@ -11,5 +11,5 @@ The component then renders the SVG as inline markup within your Blazor/Razor pag
 | Git repo      | https://github.com/asifbacchus/ABSolutions.SvgAssetCollector                 |
 | Author        | A-B Solutions (Asif Bacchus)                                                 |
 | Contact       | asif@a-b.solutions                                                           |
-| Documentation | https://a-b.solutions/documentation/nuget/SvgAssetCollector-BlazorComponent  |
+| Documentation | https://a-b.solutions/documentation/nuget/SvgAssetCollector/BlazorComponent  |
 | Nuget         | https://www.nuget.org/packages/ABSolutions.SvgAssetCollector.BlazorComponent |
