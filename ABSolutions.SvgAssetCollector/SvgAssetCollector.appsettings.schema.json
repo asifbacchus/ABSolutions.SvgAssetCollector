@@ -1,49 +1,44 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://a-b.solutions/schema/SvgAssetCollector.appsettings.schema.json",
-  "title": "SvgAssetCollector appsettings schema",
+  "title": "SvgAssetCollector configuration",
+  "description": "SvgAssetCollector appsettings.json configuration properties schema.",
   "type": "object",
   "properties": {
-    "SvgAssetCollector": {
-      "type": "object",
-      "description": "SvgAssetCollector configuration.",
-      "properties": {
-        "HttpClientName": {
-          "type": "string",
-          "default": "SvgAssetCollectorClient",
-          "description": "The name of the HttpClient to use for downloading SVG assets."
-        },
-        "UpstreamSvgAssetBaseUri": {
-          "type": "string",
-          "default": "http://localhost",
-          "description": "Upstream base URI from which to retrieve SVG assets."
-        },
-        "UpstreamRetrievalTimeoutSeconds": {
-          "type": "integer",
-          "default": "5",
-          "description": "Timeout in seconds for retrieving SVG assets from the upstream base URI."
-        },
-        "EnableSvgCache": {
-          "type": "boolean",
-          "default": "true",
-          "description": "Whether to enable in-memory caching of SVG assets."
-        },
-        "NoExpiry": {
-          "type": "boolean",
-          "default": "false",
-          "description": "Whether to disable expiry of cached SVG assets."
-        },
-        "SvgCacheExpiryMinutes": {
-          "type": "integer",
-          "default": "1440",
-          "description": "Number of minutes until cached SVG assets expire and are refreshed from the upstream URI."
-        },
-        "LoggingCorrelationIdentifier": {
-          "type": "string",
-          "default": "",
-          "description": "Structured logging 'key' to use for logging correlation."
-        }
-      }
+    "HttpClientName": {
+      "type": "string",
+      "default": "SvgAssetCollectorClient",
+      "description": "The name of the HttpClient to use for downloading SVG assets."
+    },
+    "UpstreamSvgAssetBaseUri": {
+      "type": "string",
+      "default": "http://localhost",
+      "description": "Upstream base URI from which to retrieve SVG assets."
+    },
+    "UpstreamRetrievalTimeoutSeconds": {
+      "type": "integer",
+      "default": "5",
+      "description": "Timeout in seconds for retrieving SVG assets from the upstream base URI."
+    },
+    "EnableSvgCache": {
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether to enable in-memory caching of SVG assets."
+    },
+    "NoExpiry": {
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to disable expiry of cached SVG assets."
+    },
+    "SvgCacheExpiryMinutes": {
+      "type": "integer",
+      "default": "1440",
+      "description": "Number of minutes until cached SVG assets expire and are refreshed from the upstream URI."
+    },
+    "LoggingCorrelationIdentifier": {
+      "type": "string",
+      "default": "",
+      "description": "Structured logging 'key' to use for logging correlation."
     }
   }
 }
