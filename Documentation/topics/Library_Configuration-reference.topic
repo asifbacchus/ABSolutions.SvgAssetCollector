@@ -127,6 +127,28 @@
         <code-block lang="json" src="Library_appsettings.json"/>
     </chapter>
 
+    <chapter id="configuration_schema" title="JSON schema">
+        If your IDE supports JSON schema, you use the following schema to provide intellisense for this library's
+        configuration options:
+        <code-block collapsed-title="JSON configuration schema" collapsible="true" lang="json"
+                    src="config_schema.json"/>
+        Alternatively, you can <a href="https://a-b.solutions/schema/SvgAssetCollector.appsettings.schema.json">download
+        the
+        schema file</a> or <code>ref</code> it within your existing <code>appsettings.schema.json</code> file from <a
+            href="https://a-b.solutions/schema/SvgAssetCollector.appsettings.schema.json"/>. Here's an example:
+        <code-block lang="json">
+            {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                    "SvgAssetCollector": {
+                        "$ref": "https://a-b.solutions/schema/SvgAssetCollector.appsettings.schema.json"
+                    }
+                }
+            }
+        </code-block>
+    </chapter>
+
     <chapter id="configuration-bind-model" title="Configuration bind-model">
         <p>In the event you need to read the configuration options, you can access them via dependency injection using
             the
