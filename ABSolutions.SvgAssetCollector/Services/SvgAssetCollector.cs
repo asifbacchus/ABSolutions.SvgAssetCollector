@@ -152,7 +152,7 @@ public class SvgAssetCollector : ISvgAssetCollector
                 // add attributes to SVG node and return result object
                 var svgNodeWithAttributes = AddXmlAttributes(svgXml, svgNode, attributes,
                     useDefaultSvg ? null : filename, loggingCorrelationValue);
-                _logger?.LogDebug("Returning extracted SVG node from {Filename} with updated attributes",
+                _logger?.LogInformation("Returning extracted SVG node from {Filename} with updated attributes",
                     useDefaultSvg ? "<default SVG>" : filename ?? "<default SVG>");
                 return new SvgResult(!useDefaultSvg, svgNodeWithAttributes.OuterXml);
             }
