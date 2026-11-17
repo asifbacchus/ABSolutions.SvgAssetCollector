@@ -524,11 +524,6 @@ public class SvgAssetCollector : ISvgAssetCollector
     /// </summary>
     /// <param name="filename">Filename to validate</param>
     /// <returns>True if valid, False with an error message otherwise</returns>
-    private static (bool isValidFilename, string filenameErrorMessage) ValidateFilename(string? filename)
-    {
-        if (string.IsNullOrWhiteSpace(filename))
-            return (false, "no filename specified");
-
-        return (true, string.Empty);
-    }
+    private static (bool isValidFilename, string filenameErrorMessage) ValidateFilename(string? filename) =>
+        string.IsNullOrWhiteSpace(filename) ? (false, "no filename specified") : (true, string.Empty);
 }
