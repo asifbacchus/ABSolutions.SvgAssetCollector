@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
@@ -38,6 +39,7 @@ public class SvgAssetCollector : ISvgAssetCollector
         {
             {"MethodName", "ctor"}
         };
+
         using var activity = ActivitySource.StartActivity(activityName);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
@@ -99,6 +101,8 @@ public class SvgAssetCollector : ISvgAssetCollector
         bool? useCache = null, bool? noExpiry = null,
         string loggingCorrelationValue = "", CancellationToken cancellationToken = default)
     {
+        const string activityName = "Retrieve SVG asset";
+
         var logContexts = new Dictionary<string, object>
         {
             {"MethodName", nameof(GetSvgAssetAsync)}
@@ -106,11 +110,16 @@ public class SvgAssetCollector : ISvgAssetCollector
         if (!string.IsNullOrWhiteSpace(_configuration.LoggingCorrelationIdentifier) &&
             !string.IsNullOrWhiteSpace(loggingCorrelationValue))
             logContexts.Add(_configuration.LoggingCorrelationIdentifier, loggingCorrelationValue);
+
+        using var activity = ActivitySource.StartActivity(activityName, ActivityKind.Client);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
+            activity?.SetTag("svg.asset.filename", filename);
             // set configuration options
             var cache = useCache ?? _configuration.EnableSvgCache;
+            activity?.SetTag("svg.config.enableCache", cache.ToString());
             var expiry = noExpiry ?? _configuration.NoExpiry;
+            activity?.SetTag("svg.config.noExpiry", expiry.ToString());
             var useDefaultSvg = false;
             string? responseContent = null;
 
@@ -123,8 +132,10 @@ public class SvgAssetCollector : ISvgAssetCollector
                 var filenameValidation = ValidateFilename(filename);
                 if (!filenameValidation.isValidFilename)
                 {
+                    activity?.SetStatus(ActivityStatusCode.Error, filenameValidation.filenameErrorMessage);
                     _logger?.LogWarning("Filename is invalid ({FilenameValidationMessage}), using default SVG",
                         filenameValidation.filenameErrorMessage);
+
                     useDefaultSvg = true;
                     responseContent = SvgResult.DefaultSvg;
                 }
@@ -166,12 +177,18 @@ public class SvgAssetCollector : ISvgAssetCollector
                 // add attributes to SVG node and return result object
                 var svgNodeWithAttributes = AddXmlAttributes(svgXml, svgNode, attributes,
                     useDefaultSvg ? null : filename, loggingCorrelationValue);
+
                 _logger?.LogInformation("Returning extracted SVG node from {Filename} with updated attributes",
                     useDefaultSvg ? "<default SVG>" : filename ?? "<default SVG>");
+                activity?.SetTag("svg.asset.default", useDefaultSvg);
+
+                activity?.SetStatus(ActivityStatusCode.Ok, "SVG retrieval completed");
                 return new SvgResult(!useDefaultSvg, svgNodeWithAttributes.OuterXml);
             }
             catch (OperationCanceledException exception) when (cancellationToken.IsCancellationRequested)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, "SVG retrieval cancelled");
+                activity?.SetTag("svg.config.useDefaultSvg", "true");
                 _logger?.LogWarning(exception, "Request for asset {Filename} was cancelled, sending default image",
                     filename ?? "<filename not specified>");
                 return new SvgResult();
@@ -179,6 +196,8 @@ public class SvgAssetCollector : ISvgAssetCollector
             catch (OperationCanceledException exception) when
                 (exception.InnerException is TimeoutException timeoutException)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, "SVG retrieval timed out");
+                activity?.SetTag("svg.config.useDefaultSvg", "true");
                 _logger?.LogWarning(timeoutException,
                     "Upstream asset {Filename} request timed out, sending default image",
                     filename ?? "<filename not specified>");
@@ -186,6 +205,8 @@ public class SvgAssetCollector : ISvgAssetCollector
             }
             catch (Exception exception)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, "SVG retrieval failed");
+                activity?.SetTag("svg.config.useDefaultSvg", "true");
                 _logger?.LogError(exception, "Error retrieving upstream asset {Filename}, sending default image",
                     filename ?? "<filename not specified>");
                 return new SvgResult();
@@ -203,6 +224,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     private async ValueTask<string?> GetSvgFromLocalFileAsync(string filename, string loggingCorrelationValue = "",
         CancellationToken cancellationToken = default)
     {
+        const string activityName = "Read SVG from local file";
         var logContexts = new Dictionary<string, object>
         {
             {"MethodName", nameof(GetSvgFromLocalFileAsync)}
@@ -210,8 +232,12 @@ public class SvgAssetCollector : ISvgAssetCollector
         if (!string.IsNullOrWhiteSpace(_configuration.LoggingCorrelationIdentifier) &&
             !string.IsNullOrWhiteSpace(loggingCorrelationValue))
             logContexts.Add(_configuration.LoggingCorrelationIdentifier, loggingCorrelationValue);
+
+        using var activity = ActivitySource.StartActivity(activityName, ActivityKind.Client);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
+            activity?.SetTag("svg.asset.filename", filename);
+            activity?.SetTag("svg.asset.upstreamSource", _fileBaseDirectory);
             _logger?.LogDebug("Requesting {Filename} from local file system at {UpstreamAssetSource}", filename,
                 _fileBaseDirectory);
             try
@@ -219,12 +245,17 @@ public class SvgAssetCollector : ISvgAssetCollector
                 var fileContents =
                     await File.ReadAllTextAsync(Path.Combine(_fileBaseDirectory, filename), cancellationToken);
                 if (fileContents.Length > 0 && !string.IsNullOrWhiteSpace(fileContents))
+                {
+                    activity?.SetStatus(ActivityStatusCode.Ok);
                     return fileContents;
+                }
+
                 _logger?.LogWarning("Upstream asset {Filename} is empty or contains only whitespace", filename);
                 return null;
             }
             catch (OperationCanceledException exception) when (cancellationToken.IsCancellationRequested)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, $"Request for local asset {filename} was cancelled");
                 _logger?.LogDebug(exception,
                     "Request for local asset {Filename} was cancelled: {ExceptionMessage}", filename,
                     exception.Message);
@@ -233,6 +264,8 @@ public class SvgAssetCollector : ISvgAssetCollector
             catch (OperationCanceledException exception) when
                 (exception.InnerException is TimeoutException timeoutException)
             {
+                activity?.SetStatus(ActivityStatusCode.Error,
+                    $"Operation timed-out while retrieving local asset {filename}");
                 _logger?.LogWarning(timeoutException,
                     "Operation timed-out while retrieving local asset {Filename} from {UpstreamAssetSource}: {ExceptionMessage}",
                     filename, _fileBaseDirectory, timeoutException.Message);
@@ -240,12 +273,14 @@ public class SvgAssetCollector : ISvgAssetCollector
             }
             catch (FileNotFoundException exception)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, $"Local asset {filename} not found");
                 _logger?.LogWarning(exception, "Local asset {Filename} from {UpstreamAssetSource} not found", filename,
                     _fileBaseDirectory);
                 return null;
             }
             catch (UnauthorizedAccessException exception)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, $"Access to local asset {filename} is not permitted");
                 _logger?.LogError(exception,
                     "Access to local asset {Filename} from {UpstreamAssetSource} is not permitted", filename,
                     _fileBaseDirectory);
@@ -253,6 +288,7 @@ public class SvgAssetCollector : ISvgAssetCollector
             }
             catch (Exception exception)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, $"Error while retrieving local asset {filename}");
                 _logger?.LogError(exception,
                     "Error while retrieving local asset {Filename} from {UpstreamAssetSource}: {ExceptionMessage}",
                     filename, _fileBaseDirectory, exception.Message);
@@ -271,6 +307,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     private async ValueTask<string?> GetSvgFromUpstreamAsync(string filename, string loggingCorrelationValue = "",
         CancellationToken cancellationToken = default)
     {
+        const string activityName = "Retrieve SVG from upstream";
         var logContexts = new Dictionary<string, object>
         {
             {"MethodName", nameof(GetSvgFromUpstreamAsync)}
@@ -278,8 +315,12 @@ public class SvgAssetCollector : ISvgAssetCollector
         if (!string.IsNullOrWhiteSpace(_configuration.LoggingCorrelationIdentifier) &&
             !string.IsNullOrWhiteSpace(loggingCorrelationValue))
             logContexts.Add(_configuration.LoggingCorrelationIdentifier, loggingCorrelationValue);
+
+        using var activity = ActivitySource.StartActivity(activityName, ActivityKind.Client);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
+            activity?.SetTag("svg.asset.filename", filename);
+            activity?.SetTag("svg.asset.upstreamSource", _httpBaseAddress);
             _logger?.LogDebug("Requesting {Filename} from {UpstreamAssetSource}", filename, _httpBaseAddress);
             try
             {
@@ -295,11 +336,17 @@ public class SvgAssetCollector : ISvgAssetCollector
                 {
                     var fileContents = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
                     if (fileContents.Length > 0 && !string.IsNullOrWhiteSpace(fileContents))
+                    {
+                        activity?.SetStatus(ActivityStatusCode.Ok);
                         return fileContents;
+                    }
+
                     _logger?.LogWarning("Upstream asset {Filename} is empty or contains only whitespace", filename);
                     return null;
                 }
 
+                activity?.SetStatus(ActivityStatusCode.Error,
+                    $"[HTTP:{(int) httpResponse.StatusCode}] Upstream asset not found or not available");
                 _logger?.LogWarning(
                     "Upstream asset {Filename} not found or not available: [{HttpStatusCode}] {HttpStatusMessage}",
                     filename, httpResponse.StatusCode, httpResponse.ReasonPhrase);
@@ -307,6 +354,7 @@ public class SvgAssetCollector : ISvgAssetCollector
             }
             catch (OperationCanceledException exception) when (cancellationToken.IsCancellationRequested)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, $"Request for upstream asset {filename} was cancelled");
                 _logger?.LogDebug(exception, "Request for upstream asset {Filename} was cancelled: {ExceptionMessage}",
                     filename, exception.Message);
                 return null;
@@ -314,6 +362,8 @@ public class SvgAssetCollector : ISvgAssetCollector
             catch (OperationCanceledException exception) when
                 (exception.InnerException is TimeoutException timeoutException)
             {
+                activity?.SetStatus(ActivityStatusCode.Error,
+                    $"Operation timed-out while retrieving upstream asset {filename}");
                 _logger?.LogWarning(timeoutException,
                     "Operation timed-out while retrieving upstream asset {Filename} from {UpstreamAssetSource}: {ExceptionMessage}",
                     filename, _httpBaseAddress, timeoutException.Message);
@@ -321,6 +371,7 @@ public class SvgAssetCollector : ISvgAssetCollector
             }
             catch (Exception e)
             {
+                activity?.SetStatus(ActivityStatusCode.Error, $"Error while retrieving upstream asset {filename}");
                 _logger?.LogError(e,
                     "Error while retrieving upstream asset {Filename} from {UpstreamAssetSource}: {ExceptionMessage}",
                     filename, _httpBaseAddress, e.Message);
@@ -338,6 +389,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     private async ValueTask<SvgCachedObject?> GetCachedSvgAssetAsync(string filename,
         string loggingCorrelationValue = "")
     {
+        const string activityName = "Retrieve cached SVG asset";
         var logContexts = new Dictionary<string, object>
         {
             {"MethodName", nameof(GetCachedSvgAssetAsync)}
@@ -345,17 +397,22 @@ public class SvgAssetCollector : ISvgAssetCollector
         if (!string.IsNullOrWhiteSpace(_configuration.LoggingCorrelationIdentifier) &&
             !string.IsNullOrWhiteSpace(loggingCorrelationValue))
             logContexts.Add(_configuration.LoggingCorrelationIdentifier, loggingCorrelationValue);
+
+        using var activity = ActivitySource.StartActivity(activityName, ActivityKind.Consumer);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
+            activity?.SetTag("svg.asset.filename", filename);
             _logger?.LogDebug("Checking cache for SVG markup from {Filename}", filename);
             var cachedSvg = await _svgCache.GetCachedSvg(filename);
             _logger?.LogDebug("Received {CachedSvg} from cache", cachedSvg?.ToString() ?? "<null>");
             if (cachedSvg is not null && (cachedSvg.Expiry is null || cachedSvg.Expiry > DateTime.UtcNow))
             {
+                activity?.SetTag("svg.cache.hit", true);
                 _logger?.LogDebug("Returning cached SVG markup for {Filename}", filename);
                 return cachedSvg;
             }
 
+            activity?.SetTag("svg.cache.hit", false);
             _logger?.LogDebug("No valid cached SVG markup found for {Filename}", filename);
             return null;
         }
@@ -371,6 +428,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     private async ValueTask UpdateCachedSvgAssetAsync(string filename, string svg, bool noExpiry = false,
         string loggingCorrelationValue = "")
     {
+        const string activityName = "Update cached SVG asset";
         var logContexts = new Dictionary<string, object>
         {
             {"MethodName", nameof(UpdateCachedSvgAssetAsync)}
@@ -378,17 +436,29 @@ public class SvgAssetCollector : ISvgAssetCollector
         if (!string.IsNullOrWhiteSpace(_configuration.LoggingCorrelationIdentifier) &&
             !string.IsNullOrWhiteSpace(loggingCorrelationValue))
             logContexts.Add(_configuration.LoggingCorrelationIdentifier, loggingCorrelationValue);
+
+        using var activity = ActivitySource.StartActivity(activityName, ActivityKind.Producer);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
+            activity?.SetTag("svg.asset.filename", filename);
             _logger?.LogDebug("Updating cached SVG markup for {Filename}", filename);
             var cacheResult =
                 await _svgCache.RegisterAsync(filename, svg, noExpiry ? 0 : _configuration.SvgCacheExpiryMinutes);
             if (cacheResult.result)
+            {
+                activity?.SetTag("svg.asset.expiry",
+                    noExpiry ? "infinite" : _configuration.SvgCacheExpiryMinutes.ToString());
+                activity?.SetStatus(ActivityStatusCode.Ok);
                 _logger?.LogDebug(
                     "Successfully cached SVG markup for {Filename} (valid for: {ExpiryTimeMinutes} minutes", filename,
                     noExpiry ? "infinite" : _configuration.SvgCacheExpiryMinutes.ToString());
+            }
             else
+            {
+                activity?.SetStatus(ActivityStatusCode.Error,
+                    $"Error caching SVG markup ({cacheResult.exception?.Message})");
                 _logger?.LogError(cacheResult.exception, "Error caching SVG markup for {Filename}", filename);
+            }
         }
     }
 
@@ -412,6 +482,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     private XmlNode AddXmlAttributes(XmlDocument xmlDoc, XmlNode svgNode, Dictionary<string, string>? attributes,
         string? filename = "<default SVG>", string loggingCorrelationValue = "")
     {
+        const string activityName = "Add SVG attributes";
         var logContexts = new Dictionary<string, object>
         {
             {"MethodName", nameof(AddXmlAttributes)}
@@ -419,14 +490,19 @@ public class SvgAssetCollector : ISvgAssetCollector
         if (!string.IsNullOrWhiteSpace(_configuration.LoggingCorrelationIdentifier) &&
             !string.IsNullOrWhiteSpace(loggingCorrelationValue))
             logContexts.Add(_configuration.LoggingCorrelationIdentifier, loggingCorrelationValue);
+
+        using var activity = ActivitySource.StartActivity(activityName, ActivityKind.Producer);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
             if (attributes is null || attributes.Count == 0) return svgNode;
 
-            var existingAttributes = svgNode.Attributes?.Cast<XmlAttribute>() ?? [];
+            var existingAttributes = svgNode.Attributes?.Cast<XmlAttribute>().ToImmutableList() ?? [];
+            activity?.SetTag("svg.attributes.existing.count", existingAttributes.Count);
             foreach (var attribute in existingAttributes)
                 _logger?.LogDebug("Found existing XML attribute in {Filename}: {AttributeName} = {AttributeValue}",
                     filename, attribute.Name, attribute.Value);
+
+            var attributesAdded = 0;
             foreach (var (name, value) in attributes)
             {
                 _logger?.LogDebug("Adding new XML attribute to {Filename}: {AttributeName} = {AttributeValue}",
@@ -434,7 +510,10 @@ public class SvgAssetCollector : ISvgAssetCollector
                 var newAttribute = xmlDoc.CreateAttribute(name);
                 newAttribute.Value = value;
                 svgNode.Attributes?.Append(newAttribute);
+                attributesAdded++;
             }
+
+            activity?.SetTag("svg.attributes.added.count", attributesAdded);
 
             return svgNode;
         }
