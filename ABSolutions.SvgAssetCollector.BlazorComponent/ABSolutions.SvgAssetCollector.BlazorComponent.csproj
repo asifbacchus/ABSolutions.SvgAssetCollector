@@ -27,7 +27,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" />
-        <PackageReference Include="ABSolutions.SvgAssetCollector" Version="1.0.3"/>
+        <PackageReference Include="ABSolutions.SvgAssetCollector" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>

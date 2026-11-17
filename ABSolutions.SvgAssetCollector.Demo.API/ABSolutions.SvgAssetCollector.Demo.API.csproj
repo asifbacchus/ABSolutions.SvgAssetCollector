@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ABSolutions.SvgAssetCollector" Version="1.0.3"/>
+        <PackageReference Include="ABSolutions.SvgAssetCollector" Version="2.0.0" />
     </ItemGroup>
 
 </Project>
