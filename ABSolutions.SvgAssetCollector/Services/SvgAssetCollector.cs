@@ -382,10 +382,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     ///     Create an XML document using the default SVG markup.
     /// </summary>
     /// <returns>XML document containing the default SVG.</returns>
-    private static XmlDocument DefaultSvgXml()
-    {
-        return new XmlDocument {InnerXml = SvgResult.DefaultSvg};
-    }
+    private static XmlDocument DefaultSvgXml() => new() {InnerXml = SvgResult.DefaultSvg};
 
     /// <summary>
     ///     Add attributes to an XML node based on a list of key-value pairs.
