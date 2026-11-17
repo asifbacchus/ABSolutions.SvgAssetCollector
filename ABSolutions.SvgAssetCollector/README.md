@@ -7,6 +7,22 @@ issues during retrieval or parsing, a default SVG is returned.
 This version uses an **in-memory** cache to reduce the calls to the upstream source. The cache can be disabled as
 outlined in the configuration documentation.
 
+## Tracing
+
+The library emits `System.Diagnostics.Activity` spans from the
+`ABSolutions.SvgAssetCollector` activity source. To collect them with OpenTelemetry,
+register the source in your application's tracing configuration:
+
+```csharp
+services.AddOpenTelemetry().WithTracing(tracing =>
+    tracing.AddSource("ABSolutions.SvgAssetCollector"));
+```
+
+Configure an exporter separately in the host application. Spans include descriptive
+operation names and may include the requested filename, cache hit and default-SVG
+indicators, and attribute count. Filenames can contain sensitive data; configure your
+telemetry processing accordingly. The library does not emit metrics.
+
 **Please refer to the documentation site below for more information**
 
 |               |                                                                     |
