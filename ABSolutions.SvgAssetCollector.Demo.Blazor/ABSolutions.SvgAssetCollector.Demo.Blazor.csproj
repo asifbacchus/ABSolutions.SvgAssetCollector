@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ABSolutions.SvgAssetCollector.BlazorComponent" Version="1.0.1" />
+        <PackageReference Include="ABSolutions.SvgAssetCollector.BlazorComponent" Version="2.0.0" />
     </ItemGroup>
 
 </Project>
