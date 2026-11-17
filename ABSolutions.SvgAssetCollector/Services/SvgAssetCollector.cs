@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Globalization;
 using System.Xml;
 using ABSolutions.SvgAssetCollector.Models;
 using Microsoft.Extensions.Logging;
@@ -7,6 +9,7 @@ namespace ABSolutions.SvgAssetCollector.Services;
 
 public class SvgAssetCollector : ISvgAssetCollector
 {
+    private static readonly ActivitySource ActivitySource = new(nameof(SvgAssetCollector));
     private readonly bool _accessLocalFiles;
 
     private readonly Dictionary<string, object> _baseLogContexts = new()
@@ -25,6 +28,7 @@ public class SvgAssetCollector : ISvgAssetCollector
     public SvgAssetCollector(IOptions<SvgAssetCollectorConfiguration> configuration,
         IHttpClientFactory httpClientFactory, ILogger<SvgAssetCollector>? logger, ISvgCache svgCache)
     {
+        const string activityName = "Initialize SvgAssetCollector instance";
         _configuration = configuration.Value;
         _httpClientFactory = httpClientFactory;
         _logger = logger;
@@ -34,6 +38,7 @@ public class SvgAssetCollector : ISvgAssetCollector
         {
             {"MethodName", "ctor"}
         };
+        using var activity = ActivitySource.StartActivity(activityName);
         using (_logger?.BeginScope(logContexts.Concat(_baseLogContexts)))
         {
             // construct base URI
@@ -51,11 +56,15 @@ public class SvgAssetCollector : ISvgAssetCollector
                 {
                     _logger?.LogError("Upstream SVG asset source ({UpstreamSvgAssetBaseUri}) is not a valid directory",
                         _fileBaseDirectory);
+                    activity?.SetStatus(ActivityStatusCode.Error, "Upstream SVG asset source is not a valid directory");
                     throw new DirectoryNotFoundException(
                         $"Upstream SVG asset source ({configuredBaseAddress}) is not a valid directory");
                 }
 
                 _accessLocalFiles = true;
+                activity?.SetTag("svg.config.accessLocalFiles", _accessLocalFiles.ToString());
+
+                activity?.SetTag("svg.config.upstreamSource", _fileBaseDirectory);
                 _logger?.LogInformation("Upstream SVG asset source: {UpstreamSvgAssetBaseUri}", _fileBaseDirectory);
             }
             else
@@ -65,15 +74,20 @@ public class SvgAssetCollector : ISvgAssetCollector
                     _logger?.LogError(
                         "Upstream SVG asset source ({UpstreamSvgAssetBaseUri}) is not a valid absolute URI",
                         configuredBaseAddress);
+                    activity?.SetStatus(ActivityStatusCode.Error,
+                        "Upstream SVG asset source is not a valid absolute URI");
                     throw new UriFormatException(
                         $"Upstream SVG asset source ({configuredBaseAddress}) is not a valid absolute URI");
                 }
 
                 _httpBaseAddress = new Uri(configuredBaseAddress);
+                activity?.SetTag("svg.config.upstreamSource", _httpBaseAddress);
                 _logger?.LogInformation("Upstream SVG asset source: {UpstreamSvgAssetBaseUri}", _httpBaseAddress);
 
                 // construct timeout
                 _httpTimeout = TimeSpan.FromSeconds(_configuration.UpstreamRetrievalTimeoutSeconds);
+                activity?.SetTag("svg.config.upstreamTimeout",
+                    _httpTimeout.TotalSeconds.ToString(CultureInfo.InvariantCulture));
                 _logger?.LogInformation("Upstream SVG retrieval timeout: {UpstreamSvgRetrievalTimeoutSeconds} seconds",
                     _httpTimeout);
             }
